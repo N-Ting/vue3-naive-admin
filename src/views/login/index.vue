@@ -39,8 +39,8 @@
 
 <script setup>
 import { login } from '@/api/auth'
-import { lStorage } from '@/utils/cache'
-import { setToken } from '@/utils/token'
+import { lStorage } from '@/utils'
+import { setToken } from '@/utils'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 

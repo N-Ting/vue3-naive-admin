@@ -1,4 +1,4 @@
-import { lStorage } from './cache'
+import { lStorage } from '@/utils'
 
 const TOKEN_CODE = 'access_token'
 const DURATION = 6 * 60 * 60

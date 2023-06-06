@@ -1,5 +1,5 @@
-import { getToken } from '@/utils/token'
-import { isNullOrUndef } from '@/utils/is'
+import { getToken } from '@/utils'
+import { isNullOrUndef } from '@/utils'
 import { isWithoutToken  } from './helpers'
 //axios其请求成功时reqResolve服务器返回值
 export function reqResolve(config) {

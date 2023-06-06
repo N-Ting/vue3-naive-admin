@@ -1,3 +1,4 @@
+const Layout = () => import('@/layout/index.vue')
 export const basicRoutes = [
   {
     name: '404',
@@ -18,7 +19,7 @@ export const basicRoutes = [
     {
       name: 'Dashboard',
       path: '/',
-      component: () => import('@/views/dashboard/index.vue'),
+      component: Layout,
       meta: {
         title: 'Dashboard',
       },
@@ -40,7 +41,11 @@ export const basicRoutes = [
     redirect: '/404',
     isHidden: true,
   }
-  
+  export const EMPTY_ROUTE = {
+    name: 'Empty',
+    path: '/:pathMatch(.*)*',
+    component: null,
+  }
   // modules文件夹下的路由都会作为动态路由
   const modules = import.meta.globEager('./modules/*.js')
   const asyncRoutes = []

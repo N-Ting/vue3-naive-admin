@@ -1,9 +1,9 @@
 // 动态路由
-import { useUserStore } from '@/store/modules/user'
+import { useUserStore } from '@/store'
 import { usePermissionStore } from '@/store/modules/permission'
 import { NOT_FOUND_ROUTE } from '@/router/routes'
-import { getToken, removeToken } from '@/utils/token'
-import { toLogin } from '@/utils/auth'
+import { getToken, removeToken } from '@/utils'
+import { toLogin } from '@/utils'
 
 const WHITE_LIST = ['/login']
 export function createPermissionGuard(router) {
