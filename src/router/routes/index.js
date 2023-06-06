@@ -46,11 +46,11 @@ export const basicRoutes = [
     path: '/:pathMatch(.*)*',
     component: null,
   }
-  // modules文件夹下的路由都会作为动态路由
-  const modules = import.meta.globEager('./modules/*.js')
+  // 匹配views文件中route.js的路由都会作为动态路由
+  const modules = import.meta.glob('@/views/**/route.js', { eager: true })
   const asyncRoutes = []
   Object.keys(modules).forEach((key) => {
-    asyncRoutes.push(...modules[key].default)
+    asyncRoutes.push(modules[key].default)
   })
   
   export { asyncRoutes }
