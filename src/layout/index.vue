@@ -1,7 +1,7 @@
 <template>
 <n-layout has-sider wh-full>
     <!-- 左侧menu内容 -->
-      <n-layout-sider>
+      <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="220" :native-scrollbar="false">
         海淀桥
       </n-layout-sider>
       <article>
