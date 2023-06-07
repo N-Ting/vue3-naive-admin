@@ -1,5 +1,5 @@
 <template>
-<n-layout has-sider>
+<n-layout has-sider wh-full>
     <!-- 左侧menu内容 -->
       <n-layout-sider>
         海淀桥

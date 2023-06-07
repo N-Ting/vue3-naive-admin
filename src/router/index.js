@@ -1,18 +1,24 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+/* createWebHistory种基于浏览器 history API 的路由模式，不会在url中添加任何特殊字符如 /home、/about
+   createWebHashHistory一种基于浏览器 URL 的 hash 路由模式例如：/#/home、/#/about
+ */
+import { createRouter, createWebHashHistory,createWebHistory } from 'vue-router'
 import { basicRoutes as routes,EMPTY_ROUTE, NOT_FOUND_ROUTE} from './routes'
 import { setupRouterGuard } from './guard'
 import { getToken, isNullOrWhitespace } from '@/utils'
 import { useUserStore, usePermissionStore } from '@/store'
+
+const isHash = import.meta.env.VITE_USE_HASH === 'true'
 export const router = createRouter({
-  history: createWebHashHistory('/'),
+  history:  isHash ? createWebHashHistory('/') : createWebHistory('/'),
   routes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
-export function setupRouter(app) {
-  // await addDynamicRoutes()
-  app.use(router)
+export async function setupRouter(app) {
+  await addDynamicRoutes()
   setupRouterGuard(router)
+  app.use(router)
+  
 }
 
 //重置路由

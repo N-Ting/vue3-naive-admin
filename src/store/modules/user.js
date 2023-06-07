@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
+import { resetRouter } from '@/router'
 import { getUser } from '@/api/user'
 import { removeToken } from '@/utils'
 import { toLogin } from '@/utils'
-
+import { usePermissionStore } from '@/store'
 export const useUserStore = defineStore('user', {
   state() {
     return {
@@ -39,7 +40,10 @@ export const useUserStore = defineStore('user', {
       }
     },
     async logout() {
+      const { resetPermission } = usePermissionStore()
       removeToken()
+      resetPermission()
+      resetRouter()
       this.userInfo = {}
       toLogin()
     },

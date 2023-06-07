@@ -39,15 +39,18 @@
 
 <script setup>
 import { login } from '@/api/auth'
-import { lStorage } from '@/utils'
-import { setToken } from '@/utils'
+import { lStorage,setToken} from '@/utils'
+import { useStorage } from '@vueuse/core' //响应式本地存储
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
+// import api from './api'
+import { addDynamicRoutes } from '@/router'
+
 
 const title = import.meta.env.VITE_APP_TITLE
 
-const router = useRouter()
-
+const router = useRouter() //路由实例
+const { query } = useRoute() //将query从路由对象中解构出来
 const loginInfo = ref({
   name: '',
   password: '',
@@ -62,8 +65,11 @@ function initLoginInfo() {
     loginInfo.value.password = localLoginInfo.password || ''
   }
 }
-
-const isRemember = ref(false)
+// 1.设置
+// 相当于 localStorage.setItem('isRemember', 'false')
+// 参数个数为两个且键值相同时 多次调用useStorage无效只响应首次设置的值(函数内部会直接调用localStorage.getItem(key))
+const isRemember = useStorage('isRemember', false)
+const loading = ref(false)
 async function handleLogin() {
   const { name, password } = loginInfo.value
   if (!name || !password) {
@@ -71,6 +77,8 @@ async function handleLogin() {
     return
   }
   try {
+    loading.value = true //开启loading
+    $message.loading('正在验证...')
     const res = await login({ name, password: password.toString() })
     if (res.code === 0) {
       $message.success('登录成功')
@@ -80,12 +88,20 @@ async function handleLogin() {
       } else {
         lStorage.remove('loginInfo')
       }
+      await addDynamicRoutes()
+      if (query.redirect) {
+      const path = query.redirect
+      Reflect.deleteProperty(query, 'redirect')
+      router.push({ path, query })
+    } else {
       router.push('/')
+    }
     } else {
       $message.warning(res.message)
     }
   } catch (error) {
     $message.error(error.message)
   }
+  loading.value = false
 }
 </script>
