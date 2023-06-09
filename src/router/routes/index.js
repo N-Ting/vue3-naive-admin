@@ -16,14 +16,14 @@ export const basicRoutes = [
       },
     },
   
-    {
-      name: 'Dashboard',
-      path: '/',
-      component: Layout,
-      meta: {
-        title: 'Dashboard',
-      },
-    },
+    // {
+    //   name: 'Dashboard',
+    //   path: '/',
+    //   component: Layout,
+    //   meta: {
+    //     title: 'Dashboard',
+    //   },
+    // },
   
     {
       name: 'TestUnocss',

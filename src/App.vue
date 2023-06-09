@@ -1,6 +1,7 @@
 <template>
   <AppProvider>
     <router-view v-slot="{ Component }">
+      <!-- {{ Component }} -->
       <component :is="Component" />
     </router-view>
   </AppProvider>
