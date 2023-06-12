@@ -2,7 +2,7 @@
 <n-layout has-sider wh-full>
     <!-- 左侧menu内容 -->
       <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="220" :native-scrollbar="false">
-        海淀桥
+       <SideBar/>
       </n-layout-sider>
       <article flex-col flex-1 overflow-hidden>
         <!-- 头部面包屑标签内容以及用户展示区域 -->
@@ -30,6 +30,7 @@
 </template>
 
 <script setup>
+import SideBar from './components/sidebar/index.vue'
 import AppMain from './AppMain.vue'
 
 </script>

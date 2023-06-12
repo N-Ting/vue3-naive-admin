@@ -1,5 +1,5 @@
 <template>
-  <div>工作台</div>
+  <div>基础组件</div>
 </template>
 
 <script setup>

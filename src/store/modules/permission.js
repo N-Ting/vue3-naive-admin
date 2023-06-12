@@ -50,7 +50,6 @@ export const usePermissionStore = defineStore('permission', {
   },
   actions: {
     generateRoutes(role = []) {
-      debugger
       const accessRoutes = filterAsyncRoutes(asyncRoutes, role)
       this.accessRoutes = accessRoutes
       return accessRoutes

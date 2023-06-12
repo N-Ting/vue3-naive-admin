@@ -23,9 +23,12 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 import { configMockPlugin } from './mock'
 
+import unplugin from './unplugin'
+
 export function createVitePlugins(viteEnv, isBuild) {
   const plugins = [
     vue(),
+    ...unplugin,
     VueSetupExtend(),
     configHtmlPlugin(viteEnv, isBuild),
     unocss(),

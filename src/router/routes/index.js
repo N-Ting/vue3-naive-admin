@@ -25,14 +25,14 @@ export const basicRoutes = [
     //   },
     // },
   
-    {
-      name: 'TestUnocss',
-      path: '/test/unocss',
-      component: () => import('@/views/test-page/unocss/index.vue'),
-      meta: {
-        title: '测试unocss',
-      },
-    },
+    // {
+    //   name: 'TestUnocss',
+    //   path: '/test/unocss',
+    //   component: () => import('@/views/test-page/unocss/index.vue'),
+    //   meta: {
+    //     title: '测试unocss',
+    //   },
+    // },
   ]
   
   export const NOT_FOUND_ROUTE = {
