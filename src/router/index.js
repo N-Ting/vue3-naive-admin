@@ -23,7 +23,7 @@ export async function setupRouter(app) {
 
 //重置路由
 export async function resetRouter() {
-  const basicRouteNames = getRouteNames(basicRoutes)
+  const basicRouteNames = getRouteNames(routes)
   router.getRoutes().forEach((route) => {
     const name = route.name
     if (!basicRouteNames.includes(name)) {

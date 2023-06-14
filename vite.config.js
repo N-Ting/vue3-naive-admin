@@ -1,9 +1,14 @@
 import { defineConfig, loadEnv } from "vite";
 import path from "path";
-import { wrapperEnv, createProxy } from "./build/utils.js";
+import { wrapperEnv, createProxy,getSrcPath, getRootPath } from "./build/utils.js";
 import { createVitePlugins } from './build/plugin'
 export default defineConfig(({ command, mode }) => {
+  const srcPath = getSrcPath()
+  const rootPath = getRootPath()
+
   const isBuild = command === 'build'
+
+
   const env = loadEnv(mode, process.cwd());
   const viteEnv = wrapperEnv(env);
 
@@ -16,7 +21,8 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       //设置别名
       alias: {
-        "@": path.resolve(__dirname, "src"),
+        '~': rootPath,
+        "@": srcPath,
       },
     },
     css: {

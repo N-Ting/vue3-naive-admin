@@ -93,6 +93,7 @@ function handleMenuSelect(key,item) {
         if (item.path===curRoute.path) {
             appStore.reloadPage()
         }else{
+            // 跳转路由
             router.push(item.path)
         }
     }

@@ -67,6 +67,5 @@ export function getRootPath() {
  * @descrition 结尾不带斜杠
  */
 export function getSrcPath(srcName = 'src') {
-  debugger
   return path.resolve(getRootPath(), srcName)
 }

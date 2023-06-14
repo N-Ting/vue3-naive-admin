@@ -6,8 +6,8 @@ const isDark = useDark()
 export const useAppStore = defineStore('app', {
   state() {
     return {
-      reloadFlag: true,
-      collapsed: false,
+      reloadFlag: true, 
+      collapsed: false, //是否折叠,为true则表示折叠
       /** keepAlive路由的key，重新赋值可重置keepAlive */
       aliveKeys: {},
       isDark,
@@ -27,7 +27,7 @@ export const useAppStore = defineStore('app', {
       }, 100)
     },
     // 切换收缩
-    switchCollapsed() {
+    switchCollapsed() { 
       this.collapsed = !this.collapsed
     },
 
