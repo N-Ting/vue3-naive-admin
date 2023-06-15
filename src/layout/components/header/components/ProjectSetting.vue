@@ -1,0 +1,44 @@
+<template>
+    <!-- 项目的主题颜色，风格，按钮的设置 -->
+  <n-tooltip trigger="hover">
+    <template #trigger>
+        <n-icon size="20" mr-20 @click="appStore.toggleDrawer">
+              <!-- <SettingOutlined /> -->
+              <icon-material-symbols:settings-outline-rounded></icon-material-symbols:settings-outline-rounded>
+            </n-icon>
+    </template>
+     <span>项目设置</span>
+  </n-tooltip>
+  <n-drawer v-model:show="appStore.isDrawer" :width="deawer.width" :placement="placement">
+    <n-drawer-content title="项目配置">
+        <n-divider>系统主题</n-divider>
+        <div flex justify-center>
+            <n-tooltip trigger="hover">
+               <template #trigger>
+                   <!-- 切换暗黑模式 -->
+                   <ThemeMode />
+               </template>
+               <span>{{ appStore.isDark?'深':'浅' }}色主题</span>
+            </n-tooltip>
+        </div>
+        <n-divider>系统风格</n-divider>
+        <div>
+            <span ></span>
+             
+        </div>
+    </n-drawer-content>
+  </n-drawer>
+</template>
+
+<script setup>
+// import { SettingOutlined } from '@vicons/antd'  // xicons图标库
+import { ref } from 'vue';
+import { useAppStore } from '@/store'
+import { deawer } from '~/settings' 
+import ThemeMode from './ThemeMode.vue';
+const appStore = useAppStore()
+const placement = ref('right')
+</script>
+
+<style lang="scss" scoped>
+</style>

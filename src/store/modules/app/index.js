@@ -10,6 +10,8 @@ export const useAppStore = defineStore('app', {
       collapsed: false, //是否折叠,为true则表示折叠
       /** keepAlive路由的key，重新赋值可重置keepAlive */
       aliveKeys: {},
+      isDrawer:false,//是否开启抽屉
+      // placement:'right',
       isDark,
     }
   },
@@ -38,6 +40,17 @@ export const useAppStore = defineStore('app', {
     setAliveKeys(key, val) {
       this.aliveKeys[key] = val
     },
+
+     /* 是否打开抽屉 */
+    toggleDrawer(){
+      this.isDrawer = !this.isDrawer
+    },
+    
+    /* 设置抽屉 */
+    setDrawer(drawer){
+      this.isDrawer =drawer
+    },
+
     /** 设置暗黑模式 */
     setDark(isDark) {
       this.isDark = isDark

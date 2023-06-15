@@ -6,8 +6,8 @@
     <BreadCrumb ml-15 hidden sm:block/>
   </div>
   <div ml-auto flex items-center>
-    <!-- 切换暗黑模式 -->
-    <ThemeMode />
+    <!-- 项目配置模块 -->
+    <ProjectSetting/>
     <!-- github地址 -->
     <GithubSite />
     <!-- 全屏 -->
@@ -20,7 +20,7 @@
 <script setup>
 import MenuCollapse from './components/MenuCollapse.vue';
 import BreadCrumb from './components/breadcrumb.vue';
-import ThemeMode from './components/ThemeMode.vue';
+import ProjectSetting from './components/ProjectSetting.vue';
 import GithubSite from './components/GithubSite.vue';
 import FullScreen from './components/FullScreen.vue';
 import UserAvatar from './components/UserAvatar.vue'

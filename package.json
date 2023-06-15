@@ -24,6 +24,8 @@
     "@unocss/preset-attributify": "^0.52.7",
     "@unocss/preset-icons": "^0.52.7",
     "@unocss/preset-uno": "^0.52.7",
+    "@vicons/antd": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",

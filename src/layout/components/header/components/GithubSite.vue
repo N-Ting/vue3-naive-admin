@@ -7,7 +7,7 @@
 <script setup>
 // 跳转到GitHub地址
 function handleLinkClick() {
-    window.open('https://github.com/N-Ting/vue-naive-admin')
+    window.open('https://github.com/N-Ting/vue3-naive-admin')
 }
 </script>
 

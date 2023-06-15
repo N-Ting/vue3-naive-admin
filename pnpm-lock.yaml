@@ -40,6 +40,12 @@ devDependencies:
   '@unocss/preset-uno':
     specifier: ^0.52.7
     version: 0.52.7
+  '@vicons/antd':
+    specifier: ^0.12.0
+    version: 0.12.0
+  '@vicons/ionicons5':
+    specifier: ^0.12.0
+    version: 0.12.0
   '@vitejs/plugin-vue':
     specifier: ^4.1.0
     version: registry.npmmirror.com/@vitejs/plugin-vue@4.2.3(vite@4.3.5)(vue@3.3.2)
@@ -831,6 +837,14 @@ packages:
       vite: registry.npmmirror.com/vite@4.3.5(sass@1.62.1)
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /@vicons/antd@0.12.0:
+    resolution: {integrity: sha512-C0p6aO1EmGG1QHrqgUWQS1No20934OdWSRQshM5NIDK5H1On6tC26U0hT6Rmp40KfUsvhvX5YW8BoWJdNFifPg==}
+    dev: true
+
+  /@vicons/ionicons5@0.12.0:
+    resolution: {integrity: sha512-Iy1EUVRpX0WWxeu1VIReR1zsZLMc4fqpt223czR+Rpnrwu7pt46nbnC2ycO7ItI/uqDLJxnbcMC7FujKs9IfFA==}
     dev: true
 
   /@vue/compiler-core@3.3.2:
