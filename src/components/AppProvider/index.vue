@@ -20,15 +20,25 @@
   </template>
   
   <script setup>
-import { defineComponent, h } from 'vue'
+import { computed, defineComponent, h } from 'vue'
 import { useLoadingBar, useDialog, useMessage, useNotification,darkTheme } from 'naive-ui'
 import { useCssVar } from '@vueuse/core' //css变量
 import { kebabCase } from 'lodash-es'
 import { setupMessage, setupDialog } from '@/utils'
-import { naiveThemeOverrides } from '~/settings'
+// import { naiveThemeOverrides } from '~/settings'
 import { useAppStore } from '@/store'
-
 const appStore = useAppStore()
+console.log(appStore.appTheme);
+const naiveThemeOverrides = computed(()=>{
+  // const appTheme = appStore.appTheme
+  return {
+    common:{
+      primaryColor: appStore.appTheme,
+      primaryColorSuppl:appStore.appTheme,
+    }
+  }
+})
+
 // 处理css变量
 function setupCssVar() {
   const common = naiveThemeOverrides.common

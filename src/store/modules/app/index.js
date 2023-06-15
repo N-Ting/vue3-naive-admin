@@ -1,6 +1,7 @@
 import {nextTick} from 'vue'
 import { defineStore } from 'pinia'
 import { useDark } from '@vueuse/core'
+import {appThemeList} from '~/settings'
 
 const isDark = useDark()
 export const useAppStore = defineStore('app', {
@@ -13,6 +14,20 @@ export const useAppStore = defineStore('app', {
       isDrawer:false,//是否开启抽屉
       // placement:'right',
       isDark,
+      appTheme:'#316C72FF', //系统主题色变量
+      appThemeList,  //系统内置主题色列表
+
+    }
+  },
+  getters:{
+    //系统主题色的计算属性
+    getAppThem(key,val){
+      console.log(key,val);
+      return this.appTheme
+    },
+    //系统主题色列表的计算属性
+    getAppThemList(){
+      return this.appThemeList
     }
   },
   actions: {

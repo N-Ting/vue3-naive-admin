@@ -23,7 +23,11 @@
         </div>
         <n-divider>系统风格</n-divider>
         <div>
-            <span ></span>
+            <span mr10 b border-solid  bc-eee v-for="(item,i) in appThemeList" :key="i" :style="`background-color:${item}`" @click="toggleTheme(item)">
+                <n-icon cursor-pointer size="18">
+                    <icon-ic:outline-check color-white v-if="item === appStore.appTheme"/>
+                </n-icon>
+            </span>
              
         </div>
     </n-drawer-content>
@@ -34,10 +38,16 @@
 // import { SettingOutlined } from '@vicons/antd'  // xicons图标库
 import { ref } from 'vue';
 import { useAppStore } from '@/store'
-import { deawer } from '~/settings' 
+import { deawer,appThemeList } from '~/settings' 
 import ThemeMode from './ThemeMode.vue';
 const appStore = useAppStore()
 const placement = ref('right')
+
+function toggleTheme(color) {
+    // 改变store里存储的主题颜色
+    appStore.appTheme = color
+    console.log(appStore.appTheme);
+}
 </script>
 
 <style lang="scss" scoped>
