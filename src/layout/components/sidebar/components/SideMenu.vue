@@ -1,5 +1,6 @@
 <template>
-  <n-menu :options="menuOptions" @update:value="handleMenuSelect" />
+    <!-- value菜单当前的选中值 -->
+  <n-menu :options="menuOptions" :value="activeKey" @update:value="handleMenuSelect" />
 </template>
 
 <script setup>
@@ -15,6 +16,8 @@ const appStore = useAppStore()
 const menuOptions = computed(()=>{
     return permissionStore.menus.map(item=>getMenuItem(item)).sort((a,b)=>a.order - b.order)
 })
+
+const activeKey = computed(()=>curRoute.meta?.activeMenu || curRoute.name )
 
 
 
