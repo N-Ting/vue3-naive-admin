@@ -23,14 +23,13 @@
 import { computed, defineComponent, h } from 'vue'
 import { useLoadingBar, useDialog, useMessage, useNotification,darkTheme } from 'naive-ui'
 import { useCssVar } from '@vueuse/core' //css变量
-import { kebabCase } from 'lodash-es'
+import { kebabCase } from 'lodash-es' //短横线命名方式。
 import { setupMessage, setupDialog } from '@/utils'
 // import { naiveThemeOverrides } from '~/settings'
 import { useAppStore } from '@/store'
 const appStore = useAppStore()
 console.log(appStore.appTheme);
 const naiveThemeOverrides = computed(()=>{
-  // const appTheme = appStore.appTheme
   return {
     common:{
       primaryColor: appStore.appTheme,
@@ -41,7 +40,7 @@ const naiveThemeOverrides = computed(()=>{
 
 // 处理css变量
 function setupCssVar() {
-  const common = naiveThemeOverrides.common
+  const common = naiveThemeOverrides.value.common
   for (const key in common) {
     useCssVar(`--${kebabCase(key)}`, document.documentElement).value = common[key] || ''
     if (key === 'primaryColor') window.localStorage.setItem('__THEME_COLOR__', common[key] || '')

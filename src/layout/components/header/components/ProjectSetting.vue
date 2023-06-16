@@ -40,13 +40,18 @@ import { ref } from 'vue';
 import { useAppStore } from '@/store'
 import { deawer,appThemeList } from '~/settings' 
 import ThemeMode from './ThemeMode.vue';
+import { useCssVar } from '@vueuse/core' //css变量
+import { kebabCase } from 'lodash-es'
 const appStore = useAppStore()
 const placement = ref('right')
 
 function toggleTheme(color) {
     // 改变store里存储的主题颜色
     appStore.appTheme = color
-    console.log(appStore.appTheme);
+    // 通过useCssVar设置颜色，kebabCase（短横线）命名方式
+    useCssVar(`--${kebabCase("primaryColor")}`, document.documentElement).value = appStore.appTheme || ''
+    // 存储到本地中
+    window.localStorage.setItem('__THEME_COLOR__', appStore.appTheme || '')
 }
 </script>
 
