@@ -18,5 +18,24 @@ export const appThemeList= [
     '#FB9300',
     '#FC5404',
   ];
+
+  export const switchList = [
+    {
+      lable:'显示面包屑导航',
+      show:true,
+    },
+    {
+      lable:'显示面包屑显示图标',
+      show:true,
+    },
+    {
+      lable:'显示全屏图标',
+      show:true,
+    },
+    {
+      lable:'显示多页签',
+      show:true,
+    },
+  ]
   
   

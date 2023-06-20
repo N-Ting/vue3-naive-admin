@@ -2,7 +2,7 @@
     <!-- 面包屑 -->
     <n-breadcrumb>
     <n-breadcrumb-item v-for="item in route.matched.filter((item)=>!!item.meta?.title)" :key="item.path" @click="handleMenuSelect(item.path)">
-      <component :is="getIcon(item.meta)"/>
+      <component :is="getIcon(item.meta)" v-if="crumbsSetting.showIcon"/>
       {{ item.meta.title }}
     </n-breadcrumb-item>
   </n-breadcrumb>
@@ -10,6 +10,7 @@
 
 <script setup>
 import { renderCustomIcon, renderIcon } from '@/utils' //处理图标
+import { crumbsSetting } from '@/hooks/useProjectSetting.js' //是否显示面包屑的图标
 // 路由
 const router = useRouter()
 const route = useRoute()

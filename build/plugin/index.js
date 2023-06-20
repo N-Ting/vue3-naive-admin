@@ -32,11 +32,11 @@ export function createVitePlugins(viteEnv, isBuild) {
     VueSetupExtend(),
     configHtmlPlugin(viteEnv, isBuild),
     unocss(),
-    Components({
-      resolvers: [NaiveUiResolver()],
-    }),
   ]
 
+  if (viteEnv?.VITE_APP_USE_MOCK) {
+    plugins.push(configMockPlugin(isBuild))
+  }
   if (isBuild) {
     plugins.push(
       visualizer({
@@ -47,9 +47,6 @@ export function createVitePlugins(viteEnv, isBuild) {
     )
   }
 
-  if (viteEnv?.VITE_APP_USE_MOCK) {
-    plugins.push(configMockPlugin(isBuild))
-  }
 
   return plugins
 }

@@ -20,8 +20,9 @@ const customIconPath = resolve(getSrcPath(), 'assets/svg')
 export default [
  
   AutoImport({
+     // 自动导入 Vue 相关函数，如：ref, reactive, toRef, useRoute, useRouter 等
     imports: ['vue', 'vue-router'],
-    dts: false,
+    dts: false, 
   }),
   Icons({
     compiler: 'vue3',

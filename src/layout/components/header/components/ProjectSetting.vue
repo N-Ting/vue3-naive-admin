@@ -9,6 +9,7 @@
     </template>
      <span>项目设置</span>
   </n-tooltip>
+  <!-- 项目设置 -->
   <n-drawer v-model:show="appStore.isDrawer" :width="deawer.width" :placement="placement">
     <n-drawer-content title="项目配置">
         <n-divider>系统主题</n-divider>
@@ -30,6 +31,8 @@
             </span>
              
         </div>
+        <n-divider>界面显示</n-divider>
+        <ProjectSwitch/>
     </n-drawer-content>
   </n-drawer>
 </template>
@@ -42,6 +45,7 @@ import { deawer,appThemeList } from '~/settings'
 import ThemeMode from './ThemeMode.vue';
 import { useCssVar } from '@vueuse/core' //css变量
 import { kebabCase } from 'lodash-es'
+import ProjectSwitch from './ProjectSwitch.vue';
 const appStore = useAppStore()
 const placement = ref('right')
 

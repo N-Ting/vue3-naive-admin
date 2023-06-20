@@ -1,4 +1,5 @@
 <template>
+  <AppPage>
   <div>
                 <!-- <section p-15>
                 <div flex-1>
@@ -12,6 +13,7 @@
 
             </section> -->
   </div>
+</AppPage>
 </template>
 
 <script setup>

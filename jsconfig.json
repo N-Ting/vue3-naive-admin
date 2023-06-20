@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+      // 指定要使用的默认库
+      "target": "ESNext",
+      // 指定模块基础目录
+      "baseUrl": "./",
+      "paths": {
+        // 解决项目中使用~作为路径别名，导致vscode无法跳转文件的问题
+        "~/*": ["./*"],
+        // 解决项目中使用@作为路径别名，导致vscode无法跳转文件的问题
+        "@/*": ["src/*"]
+      },
+      // 解决.jsx文件无法快速跳转的问题
+      "jsx": "preserve",
+      // 允许在 项目中导入JavaScript文件
+      "allowJs": true
+    },
+    //提高 IDE 性能
+    // 与开发无关的文件可以让 IDE 全部在编译时排除掉，
+    // 像下面的配置中就排除了，构建过程依赖文件（node_modules）
+    // 和生成的文件(dist 目录) 排除这些文件，可以提高 vscode 的性能
+    "exclude": ["node_modules", "dist"]
+  }
+  
