@@ -2,7 +2,8 @@
   <!-- n-config-provider 调整主题 -->
   <!-- Locale 对后代组件生效的语言对象 -->
   <!--theme对后代组件生效的主题对象, 从 naive-ui 导入的 darkTheme 来设定暗色主题,为 undefined 时会继承上级 n-config-provider-->
-    <n-config-provider :theme="appStore.isDark?darkTheme:undefined" :theme-overrides="naiveThemeOverrides">
+    <n-config-provider  wh-full  :locale="zhCN"
+    :date-locale="dateZhCN" :theme="appStore.isDark?darkTheme:undefined" :theme-overrides="naiveThemeOverrides">
       <!-- 加载条 Loading Bar -->
       <n-loading-bar-provider>
         <!-- 对话框 Dialog -->
@@ -21,7 +22,8 @@
   
   <script setup>
 import { computed, defineComponent, h } from 'vue'
-import { useLoadingBar, useDialog, useMessage, useNotification,darkTheme } from 'naive-ui'
+import { useLoadingBar, useDialog, useMessage, useNotification,darkTheme,zhCN,
+  dateZhCN, } from 'naive-ui'
 import { useCssVar } from '@vueuse/core' //css变量
 import { kebabCase } from 'lodash-es' //短横线命名方式。
 import { setupMessage, setupDialog } from '@/utils'

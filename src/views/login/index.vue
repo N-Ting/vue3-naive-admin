@@ -47,7 +47,7 @@ import { useRouter,useRoute } from 'vue-router'
 import { addDynamicRoutes } from '@/router'
 
 
-const title = import.meta.env.VITE_APP_TITLE
+const title = import.meta.env.VITE_TITLE
 
 const router = useRouter() //路由实例
 const { query } = useRoute() //将query从路由对象中解构出来
