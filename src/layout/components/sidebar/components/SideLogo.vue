@@ -12,7 +12,6 @@
   <script setup>
   import { useAppStore } from '@/store'
   const title = import.meta.env.VITE_TITLE
-  console.log(title);
   
   const appStore = useAppStore()
   </script>

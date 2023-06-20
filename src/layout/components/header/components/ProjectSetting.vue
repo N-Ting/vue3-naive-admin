@@ -38,7 +38,6 @@
 </template>
 
 <script setup>
-// import { SettingOutlined } from '@vicons/antd'  // xicons图标库
 import { ref } from 'vue';
 import { useAppStore } from '@/store'
 import { deawer,appThemeList } from '~/settings' 
@@ -46,9 +45,8 @@ import ThemeMode from './ThemeMode.vue';
 import { useCssVar } from '@vueuse/core' //css变量
 import { kebabCase } from 'lodash-es'
 import ProjectSwitch from './ProjectSwitch.vue';
-const appStore = useAppStore()
 const placement = ref('right')
-
+const appStore = useAppStore()
 function toggleTheme(color) {
     // 改变store里存储的主题颜色
     appStore.appTheme = color

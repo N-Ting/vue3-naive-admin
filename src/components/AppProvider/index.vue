@@ -21,7 +21,7 @@
   </template>
   
   <script setup>
-import { computed, defineComponent, h } from 'vue'
+import { defineComponent, h } from 'vue'
 import { useLoadingBar, useDialog, useMessage, useNotification,darkTheme,zhCN,
   dateZhCN, } from 'naive-ui'
 import { useCssVar } from '@vueuse/core' //css变量
@@ -39,7 +39,6 @@ const naiveThemeOverrides = computed(()=>{
     }
   }
 })
-
 // 处理css变量
 function setupCssVar() {
   const common = naiveThemeOverrides.value.common

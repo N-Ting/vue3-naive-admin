@@ -41,8 +41,8 @@
 import { login } from '@/api/auth'
 import { lStorage,setToken} from '@/utils'
 import { useStorage } from '@vueuse/core' //响应式本地存储
-import { ref } from 'vue'
-import { useRouter,useRoute } from 'vue-router'
+// import { ref } from 'vue'
+// import { useRouter,useRoute } from 'vue-router'
 // import api from './api'
 import { addDynamicRoutes } from '@/router'
 
@@ -50,6 +50,7 @@ import { addDynamicRoutes } from '@/router'
 const title = import.meta.env.VITE_TITLE
 
 const router = useRouter() //路由实例
+console.log(router,'111');
 const { query } = useRoute() //将query从路由对象中解构出来
 const loginInfo = ref({
   name: '',
