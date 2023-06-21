@@ -34,7 +34,7 @@
         <ProjectSwitch/>
         <n-divider>界面动画</n-divider>
         <div flex flex-wrap justify-between pb-12 pt12>
-          <div font-14>禁用动画</div>
+          <div font-14>开启动画</div>
           <div>
             <n-switch v-model:value="appStore.isPageAnimate" />
           </div>

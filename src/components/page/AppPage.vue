@@ -18,7 +18,6 @@ const getPageAnimate = computed(()=>{
     这是 val = isRef(val) ? val.value : val 计算的一个语法糖。 */
     return unref(isPageAnimate) ? unref(pageAnimateType) : ''
 })
-
 </script>
 
 <style lang="scss" scoped>

@@ -32,8 +32,8 @@ export const useAppStore = defineStore('app', {
         // 是否显示多页签
         show:true
       },
-      // 禁用动画
-      isPageAnimate:false,
+      // 是否开启动画
+      isPageAnimate:true,
       // 路由动画类型
       pageAnimateType:'fade-slide',
     }
@@ -51,7 +51,13 @@ export const useAppStore = defineStore('app', {
     // 页面配置
     getSwitchList(){
       return this.switchList
-    }
+    },
+    getIsPageAnimate(){
+      return this.isPageAnimate
+    },
+    getPageAnimateType(){
+      return this.pageAnimateType
+    },
   },
   actions: {
     //重载页面
