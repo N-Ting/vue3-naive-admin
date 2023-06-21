@@ -31,7 +31,11 @@ export const useAppStore = defineStore('app', {
       tagSetting:{
         // 是否显示多页签
         show:true
-      }
+      },
+      // 禁用动画
+      isPageAnimate:false,
+      // 路由动画类型
+      pageAnimateType:'fade-slide',
     }
   },
   getters:{

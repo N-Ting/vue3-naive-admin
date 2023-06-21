@@ -29,18 +29,30 @@
                     <icon-ic:outline-check color-white v-if="item === appStore.appTheme"/>
                 </n-icon>
             </span>
-             
         </div>
         <n-divider>界面显示</n-divider>
         <ProjectSwitch/>
+        <n-divider>界面动画</n-divider>
+        <div flex flex-wrap justify-between pb-12 pt12>
+          <div font-14>禁用动画</div>
+          <div>
+            <n-switch v-model:value="appStore.isPageAnimate" />
+          </div>
+        </div>
+        <div flex flex-wrap justify-between pb-12 pt12>
+          <div font-14>动画类型</div>
+          <div ml-50 flex-1>
+            <n-select v-model:value="appStore.pageAnimateType" :options="animateOptions" />
+          </div>
+        </div>
     </n-drawer-content>
   </n-drawer>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { useAppStore } from '@/store'
-import { deawer,appThemeList } from '~/settings' 
+import { deawer,appThemeList,animates as animateOptions } from '~/settings' 
 import ThemeMode from './ThemeMode.vue';
 import { useCssVar } from '@vueuse/core' //css变量
 import { kebabCase } from 'lodash-es'

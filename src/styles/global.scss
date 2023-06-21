@@ -33,6 +33,7 @@ fade-slide表示transition标签的name
 /* -enter-from始状态 */
 .fade-slide-enter-from {
   opacity: 0;
+  transform: translateX(-30px);
 }
 
 /* 离开leave-to末状态 */
