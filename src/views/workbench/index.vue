@@ -1,5 +1,5 @@
 <template>
-  <AppPage>
+  <AppPage :show-footer="true">
     <div>
       <div flex-1>
         <n-card rounded-10>卡片内容</n-card>

@@ -4,14 +4,21 @@
          in-out：新元素先进行过渡，完成之后当前元素过渡离开。
          out-in：当前元素先进行过渡，完成之后新元素过渡进入。 -->
     <transition :name="getPageAnimate" mode="out-in" appear>
-        <section cus-scroll-y  p-15>
+        <section cus-scroll-y wh-full flex-col  p-15 dark:bg-hex-121212  class="bg-[#f5f6fb]">
             <slot></slot>
+            <AppFooter v-if="showFooter" mt-15 />
             <n-back-top :bottom="20" />
         </section>
     </transition>
 </template>
 
 <script setup>
+defineProps({
+  showFooter: {
+    type: Boolean,
+    default: false,
+  },
+})
 import { isPageAnimate,pageAnimateType } from "@/hooks/useProjectSetting";
 const getPageAnimate = computed(()=>{
 /*     如果参数是 ref，则返回内部值，否则返回参数本身。
