@@ -10,7 +10,9 @@
          <AppHeader/>
         </header>
         <!--可删除的tag标签  -->
-        <section hidden border-b border-b-solid bc-eee sm:block dark:border-0 style="height: 50px;"></section>
+        <section v-if="tagSetting.show" hidden border-b border-b-solid bc-eee sm:block dark:border-0>
+        <AppTags :style="{ height: `${tags.height}px` }"/>
+        </section>
         <!-- 内容模块 -->
         <section flex-1 bg-hex-f5f6fb dark:bg-hex-101014>
             <AppMain></AppMain>
@@ -22,9 +24,11 @@
 <script setup>
 import SideBar from './components/sidebar/index.vue'
 import AppHeader from './components/header/index.vue'
+import AppTags from './components/tags/index.vue'
 import AppMain from './AppMain.vue'
-import {useAppStore} from '@/store'
-import { header} from '~/settings' //引入定义的高度
+import { useAppStore } from '@/store'
+import { header,tags } from '~/settings' //引入定义的高度
+import { tagSetting } from '@/hooks/useProjectSetting.js' //是否显示标签
 const appStore = useAppStore()
 
 </script>
