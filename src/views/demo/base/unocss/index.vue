@@ -1,5 +1,5 @@
 <template>
-    <div p-24>
+    <CommonPage show-footer>
       <p>
         文档：<a hover-decoration-underline c-blue href="https://uno.antfu.me/" target="_blank">https://uno.antfu.me/</a>
       </p>
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </CommonPage>
   </template>
   
   <script setup></script>
