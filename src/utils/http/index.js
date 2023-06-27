@@ -22,6 +22,7 @@ export function createAxios(options = {}) {
 
 export const defAxios = createAxios()
 
+//  测试时的baseURL
 export const testAxios = createAxios({
   baseURL: import.meta.env.VITE_APP_BASE_API_TEST,
 })
