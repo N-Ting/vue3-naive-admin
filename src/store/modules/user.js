@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user', {
     },
   },
   actions: {
+    // 获取用户信息
     async getUserInfo() {
       try {
         const res = await getUser()
@@ -39,6 +40,7 @@ export const useUserStore = defineStore('user', {
         return Promise.reject(error)
       }
     },
+    // 退出登录
     async logout() {
       const { resetPermission } = usePermissionStore()
       removeToken()

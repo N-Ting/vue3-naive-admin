@@ -68,6 +68,7 @@ export const basicRoutes = [
   // 匹配views文件中route.js的路由都会作为动态路由
   const modules = import.meta.glob('@/views/**/route.js', { eager: true })
   const asyncRoutes = []
+  // Object.keys返回可枚举的属性数组
   Object.keys(modules).forEach((key) => {
     asyncRoutes.push(modules[key].default)
   })
