@@ -12,6 +12,7 @@ export const useUserStore = defineStore('user', {
   },
   getters: {
     userId() {
+      // ?.当userInfo不存在时返回undefined，在引用为空(nullish ) (null 或者 undefined) 的情况下不会引起错误
       return this.userInfo?.id
     },
     name() {
