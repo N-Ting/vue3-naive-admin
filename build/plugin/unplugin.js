@@ -40,9 +40,9 @@ export default [
     dts: false,
   }),
   createSvgIconsPlugin({
-    iconDirs: [customIconPath],
-    symbolId: 'icon-custom-[dir]-[name]',
-    inject: 'body-last',
-    customDomId: '__CUSTOM_SVG_ICON__',
+    iconDirs: [customIconPath],    // 指定 SVG图标 保存的文件夹路径
+    symbolId: 'icon-custom-[dir]-[name]',  // 指定 使用svg图标的格式
+    inject: 'body-last',  //svgDom默认插入位置
+    customDomId: '__CUSTOM_SVG_ICON__',  //自定义dom id
   }),
 ]
