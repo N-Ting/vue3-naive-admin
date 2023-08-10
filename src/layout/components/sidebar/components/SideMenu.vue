@@ -11,7 +11,7 @@ import { useRoute, useRouter } from 'vue-router';
 const router = useRouter()//useRouter来手动控制路由变化
 const curRoute = useRoute() //通过useRoute来接收query和param参数
 const permissionStore = usePermissionStore() //权限
-const appStore = useAppStore()
+const appStore = useAppStore()  //存储关于系统的全局变量
 //sort((a,b)=>a.order - b.order)按照order进行排序a小于b，排序后的数组里a在b的前面
 const menuOptions = computed(()=>{
     return permissionStore.menus.map(item=>getMenuItem(item)).sort((a,b)=>a.order - b.order)

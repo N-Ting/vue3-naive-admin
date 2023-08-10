@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 import { useDark } from '@vueuse/core'
 import {appThemeList,switchList} from '~/settings'
 
-const isDark = useDark()
+const isDark = useDark() //是否使用深色主题
+//defineStore()第一个参数是应用程序中state的唯一id
 export const useAppStore = defineStore('app', {
   state() {
     return {
@@ -81,6 +82,7 @@ export const useAppStore = defineStore('app', {
     setCollapsed(collapsed) {
       this.collapsed = collapsed
     },
+    // 设置keepAlive
     setAliveKeys(key, val) {
       this.aliveKeys[key] = val
     },
