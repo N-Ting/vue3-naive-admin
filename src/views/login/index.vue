@@ -38,14 +38,10 @@
 </template>
 
 <script setup>
-import { login } from '@/api/auth'
 import { lStorage,setToken} from '@/utils'
 import { useStorage } from '@vueuse/core' //响应式本地存储
-// import { ref } from 'vue'
-// import { useRouter,useRoute } from 'vue-router'
-// import api from './api'
+import api from './api'
 import { addDynamicRoutes } from '@/router'
-
 
 const title = import.meta.env.VITE_TITLE
 
@@ -80,8 +76,8 @@ async function handleLogin() {
   try {
     loading.value = true //开启loading
     $message.loading('正在验证...')
-    const res = await login({ name, password: password.toString() })
-    if (res.code === 0) {
+    const res = await api.login({ loginName:name, password: password.toString() })
+    if (res.status === 200) {
       $message.success('登录成功')
       setToken(res.data.token)
       if (isRemember.value) {

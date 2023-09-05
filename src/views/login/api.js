@@ -1,6 +1,6 @@
 // 登录接口
-import { request } from '@/utils'
+import { defAxios as request } from '@/utils/http'
 
 export default {
-  login: (data) => request.post('/auth/login', data, { noNeedToken: true }),
+  login: (data) => request.post('/public/admin/login', data, { noNeedToken: true }),
 }

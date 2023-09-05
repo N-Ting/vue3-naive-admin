@@ -1,19 +1,17 @@
-import { getToken } from '@/utils'
+import { getToken, toLogin } from '@/utils'
 import { isNullOrUndef } from '@/utils'
-import { isWithoutToken  } from './helpers'
+import { isWithoutToken } from './helpers'
 //axios其请求成功时reqResolve服务器返回值
 export function reqResolve(config) {
   // 防止缓存，给get请求加上时间戳
   if (config.method === 'get') {
     config.params = { ...config.params, t: new Date().getTime() }
   }
-
- // 处理不需要token的请求
- if (isWithoutToken(config)) {
-  return config
-}
-
-const token = getToken()
+  // 处理不需要token的请求
+  if (config.noNeedToken) {
+    return config
+  }
+  const token = getToken()
   if (!token) {
     /**
      * * 未登录或者token过期的情况下

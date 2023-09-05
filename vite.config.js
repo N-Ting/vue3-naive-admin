@@ -14,7 +14,6 @@ export default defineConfig(({ command, mode }) => {
 
   // 这样就可以拿到定义好的环境变量了，也可以使用process.env.xxx这种方式进行访问
   const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY } = viteEnv;
-
   return {
     plugins: createVitePlugins(viteEnv, isBuild),
     base: VITE_PUBLIC_PATH || "/",

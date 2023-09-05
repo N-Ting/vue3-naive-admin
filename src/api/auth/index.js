@@ -2,7 +2,7 @@ import { defAxios as request } from '@/utils/http'
 
 export const login = (data) => {
   return request({
-    url: '/auth/login',
+    url: '/public/admin/login',
     method: 'post',
     data,
   })
