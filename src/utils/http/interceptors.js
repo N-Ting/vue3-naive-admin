@@ -1,6 +1,6 @@
 import { getToken, toLogin } from '@/utils'
 import { isNullOrUndef } from '@/utils'
-import { isWithoutToken } from './helpers'
+import { resolveResError } from './helpers'
 //axios其请求成功时reqResolve服务器返回值
 export function reqResolve(config) {
   // 防止缓存，给get请求加上时间戳
@@ -37,35 +37,38 @@ export function reqReject(error) {
 
 //axios其响应成功时resResolve服务器返回值
 export function resResolve(response) {
-  return response?.data
+  debugger
+  console.log(response,'response---');
+  // return response?.data
+    // TODO: 处理不同的 response.headers
+    const { data, status, config, msg } = response
+    if (data?.status !== 200) {
+      const status = data?.status ?? status
+  
+      /** 根据code处理对应的操作，并返回处理后的message */
+      const message = resolveResError(status, data?.message ?? msg)
+  
+      /** 需要错误提醒 */
+      !config.noNeedTip && window.$message?.error(message)
+      return Promise.reject({ status, message, error: data || response })
+    }
+    return Promise.resolve(data)
 }
 
 //axios其响应失败时resReject错误值
 export function resReject(error) {
-  let { code, message } = error.response?.data || {}
-  if (isNullOrUndef(code)) {
-    // 未知错误
-    code = -1
-    message = '接口异常！'
-  } else {
-    /**
-     * TODO 此处可以根据后端返回的错误码自定义框架层面的错误处理
-     */
-    switch (code) {
-      case 401:
-        message = message || '登录已过期'
-        break
-      case 403:
-        message = message || '没有权限'
-        break
-      case 404:
-        message = message || '资源或接口不存在'
-        break
-      default:
-        message = message || '未知异常'
-        break
-    }
+  console.log(error,'error----');
+  if (!error || !error.response) {
+    const status = error?.status
+    /** 根据status处理对应的操作，并返回处理后的message */
+    const message = resolveResError(status, error.message)
+    window.$message?.error(message)
+    return Promise.reject({ status, message, error })
   }
-  console.error(`【${code}】 ${error}`)
-  return Promise.resolve({ code, message, error })
+  const { data, status, config } = error.response
+  const code = data?.status ?? status
+  const message = resolveResError(code, data?.message ?? error.message)
+  /** 需要错误提醒 */
+  !config?.noNeedTip && window.$message?.error(message)
+  return Promise.reject({ code, message, error: error.response?.data || error.response })
 }
