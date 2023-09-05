@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { lStorage,setToken} from '@/utils'
+import { lStorage,setToken,setUserInfo} from '@/utils'
 import { useStorage } from '@vueuse/core' //响应式本地存储
 import api from './api'
 import { addDynamicRoutes } from '@/router'
@@ -80,6 +80,7 @@ async function handleLogin() {
     if (res.status === 200) {
       $message.success('登录成功')
       setToken(res.data.token)
+      setUserInfo(res.data.userInfo)
       if (isRemember.value) {
         lStorage.set('loginInfo', { name, password })
       } else {
