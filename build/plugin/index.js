@@ -34,7 +34,7 @@ export function createVitePlugins(viteEnv, isBuild) {
     unocss(),
   ]
 
-  if (viteEnv?.VITE_APP_USE_MOCK) {
+  if (viteEnv?.VITE_USE_MOCK) {
     plugins.push(configMockPlugin(isBuild))
   }
   if (isBuild) {

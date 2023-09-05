@@ -37,8 +37,6 @@ export function reqReject(error) {
 
 //axios其响应成功时resResolve服务器返回值
 export function resResolve(response) {
-  debugger
-  console.log(response,'response---');
   // return response?.data
     // TODO: 处理不同的 response.headers
     const { data, status, config, msg } = response
@@ -57,7 +55,6 @@ export function resResolve(response) {
 
 //axios其响应失败时resReject错误值
 export function resReject(error) {
-  console.log(error,'error----');
   if (!error || !error.response) {
     const status = error?.status
     /** 根据status处理对应的操作，并返回处理后的message */
