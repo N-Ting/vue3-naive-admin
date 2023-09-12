@@ -4,9 +4,9 @@ import { asyncRoutes, basicRoutes } from '@/router/routes'
 // 是否有菜单权限
 function hasPermission(route, role) {
   // * 不需要权限直接返回true
-  if (!route.meta?.requireAuth) return true
+  if (route.path=='/') return true
   // 路由的title
-  const routeRole = route.meta?.title ? route.meta.title : []
+  const routeRole = route.meta?.title? route.meta.title : []
   // * 登录用户没有菜单权限或者路由没有设置角色判定为没有权限
   if (!role.length || !routeRole.length) return false
 
@@ -17,7 +17,6 @@ function hasPermission(route, role) {
 function filterAsyncRoutes(routes = [], role) {
   const ret = []
   routes.forEach((route) => {
-    console.log(hasPermission(route, role))
     if (hasPermission(route, role)) {
       const curRoute = {
         ...route,
@@ -27,9 +26,13 @@ function filterAsyncRoutes(routes = [], role) {
       if (route.children && route.children.length) {
         // 当前用户的菜单权限子级
         role.forEach((child) => {
-          if (child.children && child.children.length) {
-            curRoute.children = filterAsyncRoutes(route.children, child.children)
+            if (child.children && child.children.length && child.path == route.path) {
+              curRoute.children = filterAsyncRoutes(route.children, child.children)
+            }else {
+              curRoute.children = filterAsyncRoutes(route.children, role)
+            
           }
+
         })
       } else {
         // Reflect.deleteProperty()方法用于删除对象上的属性，它返回一个布尔值
@@ -57,7 +60,7 @@ export const usePermissionStore = defineStore('permission', {
     },
   },
   actions: {
-    // 产生的路由 role为路由上的权限用户
+    // 产生的路由 role为用户有权限的菜单
     generateRoutes(role = []) {
       const accessRoutes = filterAsyncRoutes(asyncRoutes, role)
       this.accessRoutes = accessRoutes

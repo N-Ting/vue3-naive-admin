@@ -20,6 +20,7 @@ export const basicRoutes = [
       name: 'ExternalLink',
       path: '/external-link',
       component: Layout,
+      isHidden: true,
       meta: {
         title: '外部链接',
         icon: 'mdi:link-variant',
