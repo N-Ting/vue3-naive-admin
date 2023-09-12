@@ -55,7 +55,6 @@ export async function addDynamicRoutes() {
     // 将当前用户的role传给产生路由的方法
     const accessRoutes = permissionStore.generateRoutes(userStore.role)
     accessRoutes.forEach((route) => {
-      debugger
       // 当前路由是否存在，不存在就添加动态路由
       !router.hasRoute(route.name) && router.addRoute(route)
     })
