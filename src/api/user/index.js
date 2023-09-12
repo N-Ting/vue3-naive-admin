@@ -16,8 +16,8 @@ export function getUser(id) {
     })
   }
   return request({
-    url: '/user',
-    method: 'get',
+    url: '/private/menus/menuPermission',
+    method: 'post',
   })
 }
 

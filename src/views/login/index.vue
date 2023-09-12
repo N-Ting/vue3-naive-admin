@@ -9,7 +9,7 @@
           v-model:value="loginInfo.name"
           autofocus
           class="text-16 items-center h-50 pl-10"
-          placeholder="admin"
+          placeholder="llAdmin"
           :maxlength="20"
         >
         </n-input>
@@ -77,7 +77,7 @@ async function handleLogin() {
     loading.value = true //开启loading
     $message.loading('正在验证...')
     const res = await api.login({ loginName:name, password: password.toString() })
-    if (res.status === 200) {
+    if (res.code === 200) {
       $message.success('登录成功')
       setToken(res.data.token)
       setUserInfo(res.data.userInfo)

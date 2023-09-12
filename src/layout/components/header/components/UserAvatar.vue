@@ -3,7 +3,7 @@
       <div flex cursor-pointer items-center>
         <!-- 头像 -->
         <img src="https://assets.qszone.com/images/avatar.jpg" mr10 h-35 w-35 rounded-full />
-        <span>{{ userStore.loginName }}</span>
+        <span>{{ userStore.name }}</span>
          </div>
       </n-dropdown>
 </template>
