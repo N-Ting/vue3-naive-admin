@@ -35,7 +35,7 @@
       </template>
     </CrudTable>
     <!-- 新增/编辑/查看 -->
-    <CrudModal
+    <!-- <CrudModal
       v-model:visible="modalVisible"
       :title="modalTitle"
       :loading="modalLoading"
@@ -84,7 +84,7 @@
           />
         </n-form-item>
       </n-form>
-    </CrudModal>
+    </CrudModal> -->
   </CommonPage>
 </template>
 
@@ -100,35 +100,32 @@ const $table = ref(null)
 /** 表格数据，触发搜索的时候会更新这个值 */
 const tableData = ref([])
 /** QueryBar筛选参数（可选） */
-const queryItems = ref({})
+const queryItems = ref({ unitName: '' })
 /** 补充参数（可选） */
 const extraParams = ref({})
 
 onActivated(() => {
   $table.value?.handleSearch()
 })
-
+// fixed: 'left',
 const columns = [
-  { type: 'selection', fixed: 'left' },
   {
-    title: '发布',
-    key: 'isPublish',
+    title: '企业名称',
+    key: 'unitName',
     width: 60,
     align: 'center',
-    fixed: 'left',
+  },
+  { title: '统一信用代码', key: 'provinceCode', width: 150, ellipsis: { tooltip: true } },
+  {
+    title: '企业角色',
+    key: 'roleId',
+    width: 80,
+    ellipsis: { tooltip: true },
     render(row) {
-      return h(NSwitch, {
-        size: 'small',
-        rubberBand: false,
-        value: row['isPublish'],
-        loading: !!row.publishing,
-        onUpdateValue: () => handlePublish(row),
-      })
+      return getUnitRole(row.roleId)
     },
   },
-  { title: '标题', key: 'title', width: 150, ellipsis: { tooltip: true } },
-  { title: '分类', key: 'category', width: 80, ellipsis: { tooltip: true } },
-  { title: '创建人', key: 'author', width: 80 },
+  { title: '地址', key: 'unitAddress', width: 80 },
   {
     title: '创建时间',
     key: 'createDate',
@@ -138,11 +135,11 @@ const columns = [
     },
   },
   {
-    title: '最后更新时间',
-    key: 'updateDate',
+    title: '状态',
+    key: 'status',
     width: 150,
     render(row) {
-      return h('span', formatDateTime(row['updateDate']))
+      return h('span', formatDateTime(row['status']))
     },
   },
   {
@@ -160,7 +157,7 @@ const columns = [
             size: 'small',
             type: 'primary',
             secondary: true,
-            onClick: () => handleView(row),
+            onClick: () => handleView(row.id),
           },
           { default: () => '查看', icon: renderIcon('majesticons:eye-line', { size: 14 }) }
         ),
@@ -193,6 +190,12 @@ const columns = [
   },
 ]
 
+// 企业角色
+async function getUnitRole(id) {
+  const { data } = await api.getUnitRole({ id })
+  console.log(data.roleName) 
+  return data.roleName
+}
 // 选中事件
 function onChecked(rowKeys) {
   if (rowKeys.length) $message.info(`选中${rowKeys.join(' ')}`)

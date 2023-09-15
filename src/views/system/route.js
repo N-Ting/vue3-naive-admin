@@ -16,7 +16,7 @@ export default {
     {
       name: 'Units',
       path: 'units',
-      component: () => import('./table/index.vue'),
+      component: () => import('./units/index.vue'),
       meta: {
         title: '企业管理',
         icon: 'carbon:enterprise',

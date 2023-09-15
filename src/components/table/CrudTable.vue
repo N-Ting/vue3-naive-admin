@@ -84,7 +84,7 @@ const emit = defineEmits(['update:queryItems', 'onChecked', 'onDataChange'])
 const loading = ref(false)
 const initQuery = { ...props.queryItems }
 const tableData = ref([])
-const pagination = reactive({ page: 1, pageSize: 10 })
+const pagination = reactive({ page: 1, limit: 10 })
 
 async function handleQuery() {
   try {
@@ -92,7 +92,7 @@ async function handleQuery() {
     let paginationParams = {}
     // 如果非分页模式或者使用前端分页,则无需传分页参数
     if (props.isPagination && props.remote) {
-      paginationParams = { pageNo: pagination.page, pageSize: pagination.pageSize }
+      paginationParams = pagination
     }
     const { data } = await props.getData({
       ...props.queryItems,
@@ -136,6 +136,8 @@ function onChecked(rowKeys) {
     emit('onChecked', rowKeys)
   }
 }
+
+
 function handleExport(columns = props.columns, data = tableData.value) {
   if (!data?.length) return $message.warning('没有数据')
   const columnsData = columns.filter((item) => !!item.title && !item.hideInExcel)
@@ -147,14 +149,14 @@ function handleExport(columns = props.columns, data = tableData.value) {
   utils.book_append_sheet(workBook, sheet, '数据报表')
   writeFile(workBook, '数据报表.xlsx')
 }
-// 树形表格去掉子级的下边框
-function rowClassName(row, index) {
-  console.log(row, index)
-  if (row.children && row.children.length && index ===0) {
-    return 'no-border-bottom'
-  }
-  return ''
-}
+// // 树形表格去掉子级的下边框
+// function rowClassName(row, index) {
+//   console.log(row, index)
+//   if (row.children && row.children.length && index ===0) {
+//     return 'no-border-bottom'
+//   }
+//   return ''
+// }
 // 抛出方法，让父级可以使用
 defineExpose({
   handleSearch,
@@ -163,7 +165,7 @@ defineExpose({
 })
 </script>
 <style scoped>
-:deep(.no-border-bottom td) {
+/* :deep(.no-border-bottom td) {
   border-bottom: none;
-}
+} */
 </style>
