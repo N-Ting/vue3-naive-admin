@@ -45,7 +45,7 @@
 
 <script setup>
 import { useClipboard } from '@vueuse/core'
-defineOptions({ name: 'Upload' })
+defineOptions({ name: 'Files' })
 
 const { copy, copied } = useClipboard()
 

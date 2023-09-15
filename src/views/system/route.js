@@ -28,7 +28,7 @@ export default {
     {
       name: 'Users',
       path: 'users',
-      component: () => import('./editor/md-editor.vue'),
+      component: () => import('./roles/md-editor.vue'),
       meta: {
         title: '用户管理',
         icon: 'material-symbols:person',
@@ -40,7 +40,7 @@ export default {
     {
       name: 'Roles',
       path: 'roles',
-      component: () => import('./editor/rich-text.vue'),
+      component: () => import('./roles/rolesMange.vue'),
       meta: {
         title: '角色管理',
         icon: 'carbon:user-role',

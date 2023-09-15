@@ -11,6 +11,7 @@
     :columns="columns"
     :data="tableData"
     :row-key="(row) => row[rowKey]"
+    :row-class-name="rowClassName"
     :pagination="isPagination ? pagination : false"
     @update:checked-row-keys="onChecked"
     @update:page="onPageChange"
@@ -35,14 +36,17 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  // 表格内容的横向宽度，如果列被水平固定了，则需要设定它
   scrollX: {
     type: Number,
     default: 1200,
   },
+  // 通过行数据创建行的 key
   rowKey: {
     type: String,
     default: 'id',
   },
+  // 需要展示的列
   columns: {
     type: Array,
     required: true,
@@ -95,7 +99,7 @@ async function handleQuery() {
       ...props.extraParams,
       ...paginationParams,
     })
-    tableData.value = data?.pageData || data
+    tableData.value = data || []
     pagination.itemCount = data.total ?? data.length
   } catch (error) {
     tableData.value = []
@@ -143,10 +147,23 @@ function handleExport(columns = props.columns, data = tableData.value) {
   utils.book_append_sheet(workBook, sheet, '数据报表')
   writeFile(workBook, '数据报表.xlsx')
 }
-
+// 树形表格去掉子级的下边框
+function rowClassName(row, index) {
+  console.log(row, index)
+  if (row.children && row.children.length && index ===0) {
+    return 'no-border-bottom'
+  }
+  return ''
+}
+// 抛出方法，让父级可以使用
 defineExpose({
   handleSearch,
   handleReset,
   handleExport,
 })
 </script>
+<style scoped>
+:deep(.no-border-bottom td) {
+  border-bottom: none;
+}
+</style>

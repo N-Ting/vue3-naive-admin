@@ -94,7 +94,7 @@ import { formatDateTime, renderIcon, isNullOrUndef } from '@/utils'
 import { useCRUD } from '@/composables'
 import api from './api'
 
-defineOptions({ name: 'Crud' })
+defineOptions({ name: 'Units' })
 
 const $table = ref(null)
 /** 表格数据，触发搜索的时候会更新这个值 */
