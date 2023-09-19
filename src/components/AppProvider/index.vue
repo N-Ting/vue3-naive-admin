@@ -30,7 +30,6 @@ import { setupMessage, setupDialog } from '@/utils'
 // import { naiveThemeOverrides } from '~/settings'
 import { useAppStore } from '@/store'
 const appStore = useAppStore()
-console.log(appStore.appTheme);
 const naiveThemeOverrides = computed(()=>{
   return {
     common:{

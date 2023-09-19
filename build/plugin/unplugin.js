@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite' //解决在开发中导入问题，路径不清楚的情况下
-import Components from 'unplugin-vue-components/vite' //vue的按需组件自动导入
+import Components from 'unplugin-vue-components/vite' //vue的按需组件自动导入 默认将src/components 路径下导入组件
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { FileSystemIconLoader } from 'unplugin-icons/loaders'
 import IconsResolver from 'unplugin-icons/resolver'

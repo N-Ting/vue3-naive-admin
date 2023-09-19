@@ -20,80 +20,32 @@
       :scroll-x="1200"
       :columns="columns"
       :get-data="api.getPosts"
-      @on-checked="onChecked"
       @on-data-change="(data) => (tableData = data)"
     >
       <template #queryBar>
-        <QueryBarItem label="标题" :label-width="50">
+        <QueryBarItem label="企业名称" :label-width="70">
           <n-input
-            v-model:value="queryItems.title"
+            v-model:value="queryItems.unitName"
             type="text"
-            placeholder="请输入标题"
+            placeholder="请输入企业名称"
             @keydown.enter="$table?.handleSearch"
           />
         </QueryBarItem>
       </template>
     </CrudTable>
-    <!-- 新增/编辑/查看 -->
-    <!-- <CrudModal
-      v-model:visible="modalVisible"
-      :title="modalTitle"
-      :loading="modalLoading"
-      :show-footer="modalAction !== 'view'"
-      @on-save="handleSave"
-    >
-      <n-form
-        ref="modalFormRef"
-        label-placement="left"
-        label-align="left"
-        :label-width="80"
-        :model="modalForm"
-        :disabled="modalAction === 'view'"
-      >
-        <n-form-item label="作者" path="author">
-          <n-input v-model:value="modalForm.author" disabled />
-        </n-form-item>
-        <n-form-item
-          label="文章标题"
-          path="title"
-          :rule="{
-            required: true,
-            message: '请输入文章标题',
-            trigger: ['input', 'blur'],
-          }"
-        >
-          <n-input v-model:value="modalForm.title" placeholder="请输入文章标题" />
-        </n-form-item>
-        <n-form-item
-          label="文章内容"
-          path="content"
-          :rule="{
-            required: true,
-            message: '请输入文章内容',
-            trigger: ['input', 'blur'],
-          }"
-        >
-          <n-input
-            v-model:value="modalForm.content"
-            placeholder="请输入文章内容"
-            type="textarea"
-            :autosize="{
-              minRows: 3,
-              maxRows: 5,
-            }"
-          />
-        </n-form-item>
-      </n-form>
-    </CrudModal> -->
+    <UnitForm  ref="$unitForm"/>
+    <!-- 企业角色新增/编辑/查看 -->
+    <UnitRoleForm ref="$unitRoleForm" />
   </CommonPage>
 </template>
 
 <script setup>
-import { NButton, NSwitch } from 'naive-ui'
-import { formatDateTime, renderIcon, isNullOrUndef } from '@/utils'
-import { useCRUD } from '@/composables'
+import { NButton } from 'naive-ui'
+import { formatDateTime, renderIcon } from '@/utils'
 import api from './api'
-
+import UnitForm from './UnitForm.vue'
+import UnitRoleForm from './UnitRoleForm.vue'
+import { useUnitStore } from '@/store'
 defineOptions({ name: 'Units' })
 
 const $table = ref(null)
@@ -104,10 +56,31 @@ const queryItems = ref({ unitName: '' })
 /** 补充参数（可选） */
 const extraParams = ref({})
 
-onActivated(() => {
+//企业角色，以id对应属性值的对象
+const dataObj = ref({
+  role: {},
+})
+const $unitForm = ref(null)
+const $unitRoleForm = ref(null)
+// 获取企业的store
+const unitStore = useUnitStore()
+
+onMounted(async () => {
+  await getUnitRole()
   $table.value?.handleSearch()
 })
-// fixed: 'left',
+
+// 企业角色
+async function getUnitRole() {
+  const { data } = await api.getUnitRole()
+  unitStore.setUnitRole(data)
+  const obj = {}
+  data.forEach((item) => {
+    obj[item.id] = item.roleName
+  })
+  dataObj.role = obj
+}
+
 const columns = [
   {
     title: '企业名称',
@@ -122,7 +95,7 @@ const columns = [
     width: 80,
     ellipsis: { tooltip: true },
     render(row) {
-      return getUnitRole(row.roleId)
+      return h('span', dataObj.role[row.roleId])
     },
   },
   { title: '地址', key: 'unitAddress', width: 80 },
@@ -156,8 +129,8 @@ const columns = [
           {
             size: 'small',
             type: 'primary',
-            secondary: true,
-            onClick: () => handleView(row.id),
+            text:true,
+            onClick: () => handleUnit('view',row.id),
           },
           { default: () => '查看', icon: renderIcon('majesticons:eye-line', { size: 14 }) }
         ),
@@ -167,21 +140,34 @@ const columns = [
             size: 'small',
             type: 'primary',
             style: 'margin-left: 15px;',
-            onClick: () => handleEdit(row),
+            text:true,
+            onClick: () => handleUnit('edit',row.id),
           },
           { default: () => '编辑', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
         ),
-
+        h(
+          NButton,
+          {
+            size: 'small',
+            type: 'primary',
+            style: 'margin-left: 15px;',
+            text:true,
+            onClick: () => handleRole('edit',row.id),
+          },
+          { default: () => '角色信息', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
+        ),
         h(
           NButton,
           {
             size: 'small',
             type: 'error',
             style: 'margin-left: 15px;',
-            onClick: () => handleDelete(row.id),
+            text:true,
+            onClick: () => handleUnit(row.id),
           },
           {
             default: () => '删除',
+            text:true,
             icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
           }
         ),
@@ -189,48 +175,11 @@ const columns = [
     },
   },
 ]
-
-// 企业角色
-async function getUnitRole(id) {
-  const { data } = await api.getUnitRole({ id })
-  console.log(data.roleName) 
-  return data.roleName
+function handleUnit(type,id) {
+  $unitForm.value?.showVisible(type,id)
 }
-// 选中事件
-function onChecked(rowKeys) {
-  if (rowKeys.length) $message.info(`选中${rowKeys.join(' ')}`)
+//新增编辑查看
+function handleRole(type,id) {
+  $unitRoleForm.value?.showVisible(type,id)
 }
-
-// 发布
-function handlePublish(row) {
-  if (isNullOrUndef(row.id)) return
-
-  row.publishing = true
-  setTimeout(() => {
-    row.isPublish = !row.isPublish
-    row.publishing = false
-    $message?.success(row.isPublish ? '已发布' : '已取消发布')
-  }, 1000)
-}
-
-const {
-  modalVisible,
-  modalAction,
-  modalTitle,
-  modalLoading,
-  handleAdd,
-  handleDelete,
-  handleEdit,
-  handleView,
-  handleSave,
-  modalForm,
-  modalFormRef,
-} = useCRUD({
-  name: '文章',
-  initForm: { author: '大脸怪' },
-  doCreate: api.addPost,
-  doDelete: api.deletePost,
-  doUpdate: api.updatePost,
-  refresh: () => $table.value?.handleSearch(),
-})
 </script>
