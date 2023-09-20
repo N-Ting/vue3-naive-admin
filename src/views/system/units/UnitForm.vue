@@ -71,25 +71,6 @@
           :options="generalOptions"
         />
       </n-form-item>
-      <n-form-item
-        label="说明"
-        path="remark"
-        :rule="{
-          required: true,
-          message: '请输入说明',
-          trigger: ['input', 'blur'],
-        }"
-      >
-        <n-input
-          v-model:value="modalForm.remark"
-          placeholder="请输入说明"
-          type="textarea"
-          :autosize="{
-            minRows: 3,
-            maxRows: 5,
-          }"
-        />
-      </n-form-item>
     </n-form>
   </CrudModal>
 </template>
@@ -97,19 +78,18 @@
 <script setup>
 import { useUnitStore } from '@/store'
 import api from './api'
-import { useFORM } from '@/composables'
 // 获取企业的store
 const unitStore = useUnitStore()
 // // 弹框是否打开
-// const modalVisible = ref(false)
-// // 当前状态
-// const modalAction = ref('')
-// // 表单数据
-// const modalForm = ref({})
-// // loading状态
-// const modalLoading = ref(false)
-// // 表单ref
-// const modalFormRef = ref(null)
+const modalVisible = ref(false)
+// 当前状态
+const modalAction = ref('')
+// 表单数据
+const modalForm = ref({})
+// loading状态
+const modalLoading = ref(false)
+// 表单ref
+const modalFormRef = ref(null)
 // 角色类型的options
 const generalOptions = computed(() =>
   unitStore.unitRole.map((v) => ({ label: v.roleName, value: v.id }))
@@ -157,32 +137,11 @@ function handleSave() {
       }
     })
 }
-
-const {
-  modalVisible,
-  modalAction,
-  modalTitle,
-  modalLoading,
-  handleAdd,
-  handleDelete,
-  handleEdit,
-  handleView,
-  handleSave,
-  modalForm,
-  modalFormRef,
-} = useFORM({
-  name: '文章',
-  initForm: { author: '大脸怪' },
-  doCreate: api.addPost,
-  doDelete: api.deletePost,
-  doUpdate: api.updatePost,
-  refresh: () => $table.value?.handleSearch(),
-})
-
 // 抛出方法，让父级可以使用
 defineExpose({
   showVisible,
 })
+
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,56 +1,52 @@
 import { isNullOrWhitespace } from '@/utils'
-import { useUnitStore } from '@/store'
 const ACTIONS = {
   view: '查看',
   edit: '编辑',
   add: '新增',
 }
-
-// 获取企业的store
-const unitStore = useUnitStore()
-
-export default function ({ name, initForm = {}, doCreate, doDelete, doUpdate, refresh }) {
+export default function ({ name,doCreate,doDelete, doUpdate, refresh }) {
   const modalVisible = ref(false)
   const modalAction = ref('')
   const modalTitle = computed(() => ACTIONS[modalAction.value] + name)
   const modalLoading = ref(false)
   const modalFormRef = ref(null)
-  const modalForm = ref({ ...initForm })
+  const modalForm = ref({})
+  const id = ref('')
+  /**  */
+  // function handleAdd() {
+  //   modalAction.value = 'add'
+  //   modalVisible.value = true
+  //   modalForm.value = {}
+  // }
 
-  /** 新增 */
-  function handleAdd() {
-    modalAction.value = 'add'
-    modalVisible.value = true
-    modalForm.value = { ...initForm }
-  }
+  /** */
+  // function handleEdit(row) {
+  //   modalAction.value = 'edit'
+  //   modalVisible.value = true
+  //   modalForm.value = { ...row }
+  // }
 
-  /** 修改 */
-  function handleEdit(row) {
-    modalAction.value = 'edit'
-    modalVisible.value = true
-    modalForm.value = { ...row }
-  }
-
-  /** 查看 */
-  function handleView(type,id,$ref) {
-    console.log(type,id,$ref,'type,id,$ref');
+  /** 查看,新增,修改  */
+  async function handleView(type,id) {
     modalAction.value = type
     modalVisible.value = true
-    // modalForm.value = { ...row }
+    this.id = id
   }
 
   // 获取信息
  async function getPostById(id) {
-    const { data } = await api.getUnitById({ id })
+  console.log(doEdit);
+    const { data } = await doEdit({ id })
     modalForm.value = data
   }
 
   /** 保存 */
   function handleSave() {
-    if (['view'].includes(modalAction.value)) {
-      modalVisible.value = false
-      return
-    }
+    console.log(modalAction.value);
+    // if (!['edit','add'].includes(modalAction.value)) {
+    //   modalVisible.value = false
+    //   return
+    // }
     modalFormRef.value?.validate(async (err) => {
       if (err) return
       const actions = {
@@ -102,9 +98,9 @@ export default function ({ name, initForm = {}, doCreate, doDelete, doUpdate, re
     modalAction,
     modalTitle,
     modalLoading,
-    handleAdd,
-    handleDelete,
-    handleEdit,
+    // handleAdd,
+    // handleDelete,
+    // handleEdit,
     handleView,
     handleSave,
     modalForm,

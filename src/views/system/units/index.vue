@@ -43,7 +43,7 @@
 import { NButton } from 'naive-ui'
 import { formatDateTime, renderIcon } from '@/utils'
 import api from './api'
-import { useFORM } from '@/composables'
+// import { useFORM } from '@/composables'
 import UnitForm from './UnitForm.vue'
 import UnitRoleForm from './UnitRoleForm.vue'
 import { useUnitStore } from '@/store'
@@ -131,7 +131,7 @@ const columns = [
             size: 'small',
             type: 'primary',
             text:true,
-            onClick: () => handleView('view',row.id,$unitForm),
+            onClick: () => handleUnit('view',row.id,$unitForm),
           },
           { default: () => '查看', icon: renderIcon('majesticons:eye-line', { size: 14 }) }
         ),
@@ -142,7 +142,7 @@ const columns = [
             type: 'primary',
             style: 'margin-left: 15px;',
             text:true,
-            onClick: () => handleView('edit',row.id,$unitForm),
+            onClick: () => handleUnit('edit',row.id,$unitForm),
           },
           { default: () => '编辑', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
         ),
@@ -176,18 +176,11 @@ const columns = [
     },
   },
 ]
-// function handleUnit(type,id) {
-//   $unitForm.value?.showVisible(type,id)
-// }
-// //新增编辑查看
-// function handleRole(type,roleId) {
-//   $unitRoleForm.value?.showVisible(type,roleId)
-// }
-
-const {
-  handleView,
-} = useFORM({
-  name: '企业管理',
-  refresh: () => $table.value?.handleSearch(),
-})
+function handleUnit(type,id) {
+  $unitForm.value?.showVisible(type,id)
+}
+//新增编辑查看
+function handleRole(type,roleId) {
+  $unitRoleForm.value?.showVisible(type,roleId)
+}
 </script>
