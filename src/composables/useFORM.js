@@ -4,49 +4,26 @@ const ACTIONS = {
   edit: '编辑',
   add: '新增',
 }
-export default function ({ name,doCreate,doDelete, doUpdate, refresh }) {
-  const modalVisible = ref(false)
-  const modalAction = ref('')
-  const modalTitle = computed(() => ACTIONS[modalAction.value] + name)
-  const modalLoading = ref(false)
-  const modalFormRef = ref(null)
-  const modalForm = ref({})
-  const id = ref('')
-  /**  */
-  // function handleAdd() {
-  //   modalAction.value = 'add'
-  //   modalVisible.value = true
-  //   modalForm.value = {}
-  // }
-
-  /** */
-  // function handleEdit(row) {
-  //   modalAction.value = 'edit'
-  //   modalVisible.value = true
-  //   modalForm.value = { ...row }
-  // }
-
-  /** 查看,新增,修改  */
-  async function handleView(type,id) {
-    modalAction.value = type
-    modalVisible.value = true
-    this.id = id
-  }
-
+export default function ({ name, doCreate, doView, doDelete, doUpdate, refresh }) {
+  const modalVisible = ref(false) //弹框是否打开
+  const modalAction = ref('') // 当前状态
+  const modalTitle = computed(() => ACTIONS[modalAction.value] + name) //标题
+  const modalLoading = ref(false) //loading是否开启
+  const modalFormRef = ref(null) //表单ref
+  const modalForm = ref({}) //表单数据
   // 获取信息
- async function getPostById(id) {
-  console.log(doEdit);
-    const { data } = await doEdit({ id })
+  async function getPostById(id) {
+    const { data } = await doView({ id })
     modalForm.value = data
   }
 
   /** 保存 */
   function handleSave() {
-    console.log(modalAction.value);
-    // if (!['edit','add'].includes(modalAction.value)) {
-    //   modalVisible.value = false
-    //   return
-    // }
+    console.log(modalFormRef.value)
+    if (!['edit', 'add'].includes(modalAction.value)) {
+      modalVisible.value = false
+      return
+    }
     modalFormRef.value?.validate(async (err) => {
       if (err) return
       const actions = {
@@ -73,35 +50,12 @@ export default function ({ name,doCreate,doDelete, doUpdate, refresh }) {
     })
   }
 
-  /** 删除 */
-  function handleDelete(id, confirmOptions) {
-    if (isNullOrWhitespace(id)) return
-    $dialog.confirm({
-      content: '确定删除？',
-      async confirm() {
-        try {
-          modalLoading.value = true
-          const data = await doDelete(id)
-          $message.success('删除成功')
-          modalLoading.value = false
-          refresh(data)
-        } catch (error) {
-          modalLoading.value = false
-        }
-      },
-      ...confirmOptions,
-    })
-  }
-
   return {
     modalVisible,
     modalAction,
     modalTitle,
     modalLoading,
-    // handleAdd,
-    // handleDelete,
-    // handleEdit,
-    handleView,
+    getPostById,
     handleSave,
     modalForm,
     modalFormRef,

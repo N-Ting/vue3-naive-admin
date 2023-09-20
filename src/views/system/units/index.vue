@@ -43,7 +43,6 @@
 import { NButton } from 'naive-ui'
 import { formatDateTime, renderIcon } from '@/utils'
 import api from './api'
-// import { useFORM } from '@/composables'
 import UnitForm from './UnitForm.vue'
 import UnitRoleForm from './UnitRoleForm.vue'
 import { useUnitStore } from '@/store'
@@ -153,7 +152,7 @@ const columns = [
             type: 'primary',
             style: 'margin-left: 15px;',
             text:true,
-            onClick: () => handleView('edit',row.roleId,$unitRoleForm),
+            onClick: () => handleRole('edit',row.roleId,$unitRoleForm),
           },
           { default: () => '角色信息', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
         ),
@@ -183,4 +182,7 @@ function handleUnit(type,id) {
 function handleRole(type,roleId) {
   $unitRoleForm.value?.showVisible(type,roleId)
 }
+
+
+
 </script>
