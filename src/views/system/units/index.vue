@@ -1,14 +1,14 @@
 <template>
-  <CommonPage show-footer title="文章">
+  <CommonPage show-footer title="企业管理">
     <template #action>
       <div>
-        <n-button type="primary" secondary @click="$table?.handleExport()">
+        <!-- <n-button type="primary" secondary @click="$table?.handleExport()">
           <TheIcon icon="mdi:download" :size="18" class="mr-5" />
           导出
-        </n-button>
-        <n-button type="primary" class="ml-16" @click="handleAdd">
+        </n-button> -->
+        <n-button type="primary" class="ml-16" @click="handleUnit">
           <TheIcon icon="material-symbols:add" :size="18" class="mr-5" />
-          新建文章
+          新建
         </n-button>
       </div>
     </template>
@@ -43,6 +43,7 @@
 import { NButton } from 'naive-ui'
 import { formatDateTime, renderIcon } from '@/utils'
 import api from './api'
+import { useFORM } from '@/composables'
 import UnitForm from './UnitForm.vue'
 import UnitRoleForm from './UnitRoleForm.vue'
 import { useUnitStore } from '@/store'
@@ -130,7 +131,7 @@ const columns = [
             size: 'small',
             type: 'primary',
             text:true,
-            onClick: () => handleUnit('view',row.id),
+            onClick: () => handleView('view',row.id,$unitForm),
           },
           { default: () => '查看', icon: renderIcon('majesticons:eye-line', { size: 14 }) }
         ),
@@ -141,7 +142,7 @@ const columns = [
             type: 'primary',
             style: 'margin-left: 15px;',
             text:true,
-            onClick: () => handleUnit('edit',row.id),
+            onClick: () => handleView('edit',row.id,$unitForm),
           },
           { default: () => '编辑', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
         ),
@@ -152,34 +153,41 @@ const columns = [
             type: 'primary',
             style: 'margin-left: 15px;',
             text:true,
-            onClick: () => handleRole('edit',row.id),
+            onClick: () => handleView('edit',row.roleId,$unitRoleForm),
           },
           { default: () => '角色信息', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
         ),
-        h(
-          NButton,
-          {
-            size: 'small',
-            type: 'error',
-            style: 'margin-left: 15px;',
-            text:true,
-            onClick: () => handleUnit(row.id),
-          },
-          {
-            default: () => '删除',
-            text:true,
-            icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
-          }
-        ),
+        // h(
+        //   NButton,
+        //   {
+        //     size: 'small',
+        //     type: 'error',
+        //     style: 'margin-left: 15px;',
+        //     text:true,
+        //     onClick: () => handleView(row.id),
+        //   },
+        //   {
+        //     default: () => '删除',
+        //     text:true,
+        //     icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
+        //   }
+        // ),
       ]
     },
   },
 ]
-function handleUnit(type,id) {
-  $unitForm.value?.showVisible(type,id)
-}
-//新增编辑查看
-function handleRole(type,id) {
-  $unitRoleForm.value?.showVisible(type,id)
-}
+// function handleUnit(type,id) {
+//   $unitForm.value?.showVisible(type,id)
+// }
+// //新增编辑查看
+// function handleRole(type,roleId) {
+//   $unitRoleForm.value?.showVisible(type,roleId)
+// }
+
+const {
+  handleView,
+} = useFORM({
+  name: '企业管理',
+  refresh: () => $table.value?.handleSearch(),
+})
 </script>

@@ -97,21 +97,22 @@
 <script setup>
 import { useUnitStore } from '@/store'
 import api from './api'
+import { useFORM } from '@/composables'
 // 获取企业的store
 const unitStore = useUnitStore()
-// 弹框是否打开
-const modalVisible = ref(false)
-// 当前状态
-const modalAction = ref('')
-// 表单数据
-const modalForm = ref({})
+// // 弹框是否打开
+// const modalVisible = ref(false)
+// // 当前状态
+// const modalAction = ref('')
+// // 表单数据
+// const modalForm = ref({})
+// // loading状态
+// const modalLoading = ref(false)
+// // 表单ref
+// const modalFormRef = ref(null)
 // 角色类型的options
 const generalOptions = computed(() =>
   unitStore.unitRole.map((v) => ({ label: v.roleName, value: v.id }))
-)
-// 角色编码的options
-const roleCodeList = computed(() =>
-  unitStore.unitRole.map((v) => ({ label: v.roleCode, value: v.roleCode }))
 )
 function showVisible(type, id) {
   modalAction.value = type
@@ -125,6 +126,58 @@ async function getUnitById(id) {
   const { data } = await api.getUnitById({ id })
   modalForm.value = data
 }
+// 保存企业信息
+function handleSave() {
+    if (!['edit', 'add'].includes(modalAction.value)) {
+      modalVisible.value = false
+      return
+    }
+    modalFormRef.value?.validate(async (err) => {
+      if (err) return
+      const actions = {
+        add: {
+          api: () => api.addUnitPost(modalForm.value),
+          cb: () => $message.success('新增成功'),
+        },
+        edit: {
+          api: () => api.addUnitPost(modalForm.value),
+          cb: () => $message.success('编辑成功'),
+        },
+      }
+      const action = actions[modalAction.value]
+
+      try {
+        modalLoading.value = true
+        const data = await action.api()
+        action.cb()
+        modalLoading.value = modalVisible.value = false
+        data && refresh(data)
+      } catch (error) {
+        modalLoading.value = false
+      }
+    })
+}
+
+const {
+  modalVisible,
+  modalAction,
+  modalTitle,
+  modalLoading,
+  handleAdd,
+  handleDelete,
+  handleEdit,
+  handleView,
+  handleSave,
+  modalForm,
+  modalFormRef,
+} = useFORM({
+  name: '文章',
+  initForm: { author: '大脸怪' },
+  doCreate: api.addPost,
+  doDelete: api.deletePost,
+  doUpdate: api.updatePost,
+  refresh: () => $table.value?.handleSearch(),
+})
 
 // 抛出方法，让父级可以使用
 defineExpose({

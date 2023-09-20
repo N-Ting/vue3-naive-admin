@@ -16,7 +16,7 @@
     >
       <n-form-item
         label="角色类型"
-        path="roleName"
+        path="id"
         :rule="{
           required: true,
           message: '请输入角色类型',
@@ -24,7 +24,7 @@
         }"
       >
         <n-select
-          v-model:value="modalForm.roleName"
+          v-model:value="modalForm.id"
           placeholder="请输入角色类型"
           :options="generalOptions"
         />
@@ -78,6 +78,10 @@ const modalVisible = ref(false)
 const modalAction = ref('')
 // 表单数据
 const modalForm = ref({})
+// loading状态
+const modalLoading = ref(false)
+// 表单ref
+const modalFormRef = ref(null)
 // 角色类型的options
 const generalOptions = computed(() =>
   unitStore.unitRole.map((v) => ({ label: v.roleName, value: v.id }))
@@ -90,13 +94,40 @@ function showVisible(type, id) {
   modalAction.value = type
   modalVisible.value = true
   if (type != 'add') {
-    getUnitById(id)
+    getUnitRoleId(id)
   }
 }
 // 获取企业信息
-async function getUnitById(id) {
-  const { data } = await api.getUnitById({ id })
+async function getUnitRoleId(id) {
+  const { data } = await api.getUnitRoleId({ id })
   modalForm.value = data
+}
+/* 保存 */
+function handleSave() {
+    if (!['edit'].includes(modalAction.value)) {
+      modalVisible.value = false
+      return
+    }
+    modalFormRef.value?.validate(async (err) => {
+      if (err) return
+      const actions = {
+        edit: {
+          api: () => api.updateUnitRole(modalForm.value),
+          cb: () => $message.success('编辑成功'),
+        },
+      }
+      const action = actions[modalAction.value]
+
+      try {
+        modalLoading.value = true
+        const data = await action.api()
+        action.cb()
+        modalLoading.value = modalVisible.value = false
+        data && refresh(data)
+      } catch (error) {
+        modalLoading.value = false
+      }
+    })
 }
 
 // 抛出方法，让父级可以使用
