@@ -1,4 +1,3 @@
-import { isNullOrWhitespace } from '@/utils'
 const ACTIONS = {
   view: '查看',
   edit: '编辑',
@@ -16,7 +15,6 @@ export default function ({ name, doCreate, doView, doDelete, doUpdate, refresh }
     const { data } = await doView({ id })
     modalForm.value = data
   }
-
   /** 保存 */
   function handleSave() {
     console.log(modalFormRef.value)

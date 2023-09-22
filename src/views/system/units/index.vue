@@ -2,13 +2,9 @@
   <CommonPage show-footer title="企业管理">
     <template #action>
       <div>
-        <!-- <n-button type="primary" secondary @click="$table?.handleExport()">
-          <TheIcon icon="mdi:download" :size="18" class="mr-5" />
-          导出
-        </n-button> -->
-        <n-button type="primary" class="ml-16" @click="handleUnit">
+        <n-button type="primary" class="ml-16" @click="handleUnit('add')">
           <TheIcon icon="material-symbols:add" :size="18" class="mr-5" />
-          新建
+          新增
         </n-button>
       </div>
     </template>
@@ -33,18 +29,21 @@
         </QueryBarItem>
       </template>
     </CrudTable>
-    <UnitForm  ref="$unitForm"/>
+    <UnitForm ref="$unitForm" />
+    <!-- 部门信息 -->
+    <UnitDepart ref="$unitDepart"/>
     <!-- 企业角色新增/编辑/查看 -->
-    <UnitRoleForm ref="$unitRoleForm" />
+    <!-- <UnitRoleForm ref="$unitRoleForm" /> -->
   </CommonPage>
 </template>
 
 <script setup>
-import { NButton } from 'naive-ui'
+import { NButton, NTag, NDropdown } from 'naive-ui'
 import { formatDateTime, renderIcon } from '@/utils'
 import api from './api'
 import UnitForm from './UnitForm.vue'
-import UnitRoleForm from './UnitRoleForm.vue'
+import UnitDepart from './UnitDepart.vue'
+// import UnitRoleForm from './UnitRoleForm.vue'
 import { useUnitStore } from '@/store'
 defineOptions({ name: 'Units' })
 
@@ -62,6 +61,7 @@ const dataObj = ref({
 })
 const $unitForm = ref(null)
 const $unitRoleForm = ref(null)
+const $unitDepart = ref(null)
 // 获取企业的store
 const unitStore = useUnitStore()
 
@@ -111,8 +111,17 @@ const columns = [
     title: '状态',
     key: 'status',
     width: 150,
+
     render(row) {
-      return h('span', formatDateTime(row['status']))
+      return h(
+        NTag,
+        {
+          type: row.status ? 'success' : 'info',
+        },
+        {
+          default: () => (row.status ? '启用' : '禁用'),
+        }
+      )
     },
   },
   {
@@ -129,10 +138,13 @@ const columns = [
           {
             size: 'small',
             type: 'primary',
-            text:true,
-            onClick: () => handleUnit('view',row.id,$unitForm),
+            text: true,
+            onClick: () => handleUnit('view', row.id, $unitForm),
           },
-          { default: () => '查看', icon: renderIcon('majesticons:eye-line', { size: 14 }) }
+          {
+            default: () => '查看',
+            // icon: renderIcon('majesticons:eye-line', { size: 14 })
+          }
         ),
         h(
           NButton,
@@ -140,10 +152,13 @@ const columns = [
             size: 'small',
             type: 'primary',
             style: 'margin-left: 15px;',
-            text:true,
-            onClick: () => handleUnit('edit',row.id,$unitForm),
+            text: true,
+            onClick: () => handleUnit('edit', row.id, $unitForm),
           },
-          { default: () => '编辑', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
+          {
+            default: () => '编辑',
+            // icon: renderIcon('material-symbols:edit-outline', { size: 14 })
+          }
         ),
         h(
           NButton,
@@ -151,38 +166,76 @@ const columns = [
             size: 'small',
             type: 'primary',
             style: 'margin-left: 15px;',
-            text:true,
-            onClick: () => handleRole('edit',row.roleId,$unitRoleForm),
+            text: true,
+            onClick: () => handleDepart(row.id),
           },
-          { default: () => '角色信息', icon: renderIcon('material-symbols:edit-outline', { size: 14 }) }
+          {
+            default: () => '部门信息',
+            // icon: renderIcon('material-symbols:edit-outline', { size: 14 })
+          }
+        ),
+        h(
+          NButton,
+          {
+            size: 'small',
+            type: 'primary',
+            style: 'margin-left: 15px;',
+            text: true,
+            onClick: () => handleMember('left', row.roleId, $unitRoleForm),
+          },
+          {
+            default: () => '成员信息',
+            // icon: renderIcon('material-symbols:edit-outline', { size: 14 })
+          }
+        ),
+        h(
+          NDropdown,
+          {
+            options: [
+              {
+                label: '成员信息',
+                key: 'profile',
+              },
+              {
+                label: '启用',
+                key: 'profile',
+              },
+              {
+                label: '禁用',
+                key: 'profile',
+              },
+            ],
+          },
+          {
+            default: () => '更多操作',
+            icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
+          }
         ),
         // h(
         //   NButton,
         //   {
         //     size: 'small',
-        //     type: 'error',
+        //     type: 'primary',
         //     style: 'margin-left: 15px;',
-        //     text:true,
+        //     text: true,
         //     onClick: () => handleView(row.id),
         //   },
         //   {
-        //     default: () => '删除',
-        //     text:true,
-        //     icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
+        //     default: () => '成员信息',
+        //     // icon: renderIcon('material-symbols:delete-outline', { size: 14 }),
         //   }
         // ),
       ]
     },
   },
 ]
-function handleUnit(type,id) {
-  $unitForm.value?.showVisible(type,id)
-}
 //新增编辑查看
-function handleRole(type,roleId) {
-  $unitRoleForm.value?.showVisible(type,roleId)
+function handleUnit(type, id) {
+  $unitForm.value?.showVisible(type, id)
 }
 
-
+function handleDepart(id) {
+  $unitDepart.value?.showVisible(id)
+}
 
 </script>

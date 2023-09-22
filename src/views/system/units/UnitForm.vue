@@ -103,7 +103,6 @@ const {
   modalFormRef,
 } = useFORM({
   name: '企业管理',
-  initForm: { author: '大脸怪' },
   doCreate: api.addUnitPost,
   doView: api.getUnitById,
   doDelete: api.deletePost,

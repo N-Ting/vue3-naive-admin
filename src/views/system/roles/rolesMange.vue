@@ -1,14 +1,10 @@
 <template>
-  <CommonPage show-footer title="文章">
+  <CommonPage show-footer title="角色管理">
     <template #action>
       <div>
-        <n-button type="primary" secondary @click="$table?.handleExport()">
-          <TheIcon icon="mdi:download" :size="18" class="mr-5" />
-          导出
-        </n-button>
         <n-button type="primary" class="ml-16" @click="handleAdd">
           <TheIcon icon="material-symbols:add" :size="18" class="mr-5" />
-          新建文章
+          新增
         </n-button>
       </div>
     </template>
@@ -25,11 +21,11 @@
       @on-data-change="(data) => (tableData = data)"
     >
       <template #queryBar>
-        <QueryBarItem label="标题" :label-width="50">
+        <QueryBarItem label="角色名称" :label-width="80">
           <n-input
             v-model:value="queryItems.title"
             type="text"
-            placeholder="请输入标题"
+            placeholder="请输入角色名称"
             @keydown.enter="$table?.handleSearch"
           />
         </QueryBarItem>
@@ -90,7 +86,7 @@
 </template>
 
 <script setup>
-import { NButton } from 'naive-ui'
+import { NButton,NTag } from 'naive-ui'
 import api from './api'
 
 defineOptions({ name: 'Roles' })
@@ -115,7 +111,17 @@ const columns = [
     align: 'center',
     fixed: 'left',
   },
-  { title: '类型', key: 'title', width: 150, ellipsis: { tooltip: true } },
+  { title: '类型', key: 'title', width: 150, ellipsis: { tooltip: true }, render(row) {
+    return h(
+      NTag,
+      {
+        type:row.unitRoleId?'success':'info'
+      },
+      {
+        default: () => row.unitRoleId?'用户角色':'企业角色',
+      }
+    )
+  } },
   { title: '角色编码', key: 'roleCode', width: 80, ellipsis: { tooltip: true } },
   { title: '说明', key: 'remark', width: 80 },
   {
