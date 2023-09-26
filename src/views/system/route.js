@@ -6,7 +6,7 @@ export default {
   component: Layout,
   redirect: '/system/units',
   meta: {
-    title: '系统管理',
+    title: '后台管理',
     icon: 'material-symbols:settings-outline-rounded',
     // role: ['admin'],
     // requireAuth: true,

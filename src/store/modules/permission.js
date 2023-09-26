@@ -4,12 +4,11 @@ import { asyncRoutes, basicRoutes } from '@/router/routes'
 // 是否有菜单权限
 function hasPermission(route, role) {
   // * 不需要权限直接返回true
-  if (route.path=='/') return true
+  // if (route.path=='/') return true
   // 路由的title
   const routeRole = route.meta?.title? route.meta.title : []
   // * 登录用户没有菜单权限或者路由没有设置角色判定为没有权限
   if (!role.length || !routeRole.length) return false
-
   // * 路由指定的角色包含任一登录用户角色则判定有权限
   return role.some((item) => routeRole.includes(item.title))
 }

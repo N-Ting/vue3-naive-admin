@@ -42,9 +42,9 @@ import { lStorage,setToken,setUserInfo} from '@/utils'
 import { useStorage } from '@vueuse/core' //响应式本地存储
 import api from './api'
 import { addDynamicRoutes } from '@/router'
-
+import { useUserStore } from '@/store'
 const title = import.meta.env.VITE_TITLE
-
+const userStore = useUserStore()
 const router = useRouter() //路由实例
 console.log(router,'111');
 const { query } = useRoute() //将query从路由对象中解构出来
@@ -93,7 +93,7 @@ async function handleLogin() {
       Reflect.deleteProperty(query, 'redirect')
       router.push({ path, query })
     } else {
-      router.push('/')
+      router.push(userStore.role[0].path)
     }
     } else {
       $message.warning(res.message)
