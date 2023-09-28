@@ -1,10 +1,10 @@
 <!-- 抽屉组件 -->
 <template>
-   <n-drawer v-model:show="show" :width="width" :placement="placement">
+   <n-drawer v-model:show="show" :width="width" :height="height" :placement="placement" >
     <n-drawer-content :title="title">
       <slot />
       <template  #footer>
-      <footer flex justify-end>
+      <footer flex justify-center>
         <slot name="footer">
           <n-button @click="show = false">取消</n-button>
           <n-button v-if="showFooter" :loading="loading" ml-20 type="primary" @click="emit('onSave')">保存</n-button>
@@ -19,7 +19,11 @@
 const props = defineProps({
   width: {
     type: String,
-    default: '600px',
+    default: '750px',
+  },
+  height:{
+    type: String,
+    default: '100%',
   },
   title: {
     type: String,
