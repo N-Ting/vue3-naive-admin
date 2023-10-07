@@ -1,8 +1,8 @@
 <template>
-      <QueryBar v-if="$slots.queryBar" mb-30 @search="handleSearch">
+  <QueryBar v-if="$slots.queryBar" mb-30 @search="handleSearch" :show="false">
     <slot name="queryBar" />
   </QueryBar>
-    <n-tree
+  <n-tree
     block-line
     :data="treeData"
     :default-expanded-keys="defaultExpandedKeys"
@@ -37,42 +37,45 @@ const props = defineProps({
     },
   },
   /* tree的数据接口 */
-  getTreeData:{
-    type:Function,
+  getTreeData: {
+    type: Function,
     required: true,
-  }
+  },
 })
 
-const emit = defineEmits(['handleSelectedKeysChange','handleExpandedKeysChange'])
+const emit = defineEmits(['handleSelectedKeysChange', 'handleExpandedKeysChange'])
 const treeData = ref([])
 const defaultExpandedKeys = ref([])
 const defaultSelectedKeys = ref([])
 onMounted(() => {
-   handleQuery()
+  handleQuery()
 })
 function handleSearch() {
-    handleQuery()
+  handleQuery()
 }
 
 /* 获取tree数据 */
 async function handleQuery() {
-    const { data } = await props.getTreeData({
-      ...props.queryItems,
-    })
-    treeData.value = data || []
-    // defaultExpandedKeys.value = data[0].id
-    // defaultSelectedKeys.value = data[0].id
+  const { data } = await props.getTreeData({
+    ...props.queryItems,
+  })
+  treeData.value = data || []
+  // defaultExpandedKeys.value = data[0].id
+  // defaultSelectedKeys.value = data[0].id
 }
 /* 节点选中项发生变化时的回调函数 */
 function handleSelectedKeysChange(selectedKeys) {
-    emit('handleSelectedKeysChange',selectedKeys)
-    console.log(selectedKeys,'selectedKeys');
+  emit('handleSelectedKeysChange', selectedKeys)
+  console.log(selectedKeys, 'selectedKeys')
 }
 /* 节点展开项发生变化时的回调函数 */
 function handleExpandedKeysChange(expndedKeys) {
-    console.log(expndedKeys,'expndedKeys');
+  console.log(expndedKeys, 'expndedKeys')
 }
+
+defineExpose({
+  handleSearch,
+})
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

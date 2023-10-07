@@ -179,7 +179,7 @@ const columns = [
           {
             size: 'small',
             type: 'primary',
-            style: 'margin-left: 15px;',
+            style: 'margin-left: 15px;margin-right: 15px;',
             text: true,
             onClick: () => handleMember('left', row.roleId, $unitRoleForm),
           },
@@ -191,6 +191,7 @@ const columns = [
         h(
           NDropdown,
           {
+            style: 'margin-left: 15px;',
             options: [
               {
                 label: '成员信息',
@@ -205,6 +206,7 @@ const columns = [
                 key: 'profile',
               },
             ],
+           
           },
           {
             default: () => '更多操作',

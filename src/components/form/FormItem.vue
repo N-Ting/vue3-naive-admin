@@ -1,5 +1,5 @@
 <template>
-  <div border-l border-l-solid bc-eee pl-15>
+  <div>
     <n-form
       ref="modalFormRef"
       :label-placement="labelPlacement"
@@ -113,11 +113,11 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  // /* 当前form表单的id,用于查询详情信息 */
-  // id: {
-  //   type: String,
-  //   default: '',
-  // },
+  /* 状态 */
+  formAction:{
+    type: String,
+    default: 'add',
+  },
   /* 获取详情的api */
   getFormData: {
     type: Function,
@@ -125,15 +125,61 @@ const props = defineProps({
   },
 })
 const modalForm = ref({})
+const modalFormRef = ref(null) //表单ref
+const modalData= ref({})
 /* 获取表单信息 */
 async function getFormData(id) {
   const { data } = await props.getFormData({id})
   modalForm.value = data
+  modalData.value = data
 }
+
+/* 清空表单 item,item1所需要改变参数的id名*/
+function clearForm(item,item1){
+ props.formData.map((item) => {
+    modalForm.value[item.value] = ''
+  })
+  modalForm.value[item] = modalData.value.id
+  modalForm.value[item1] = modalData.value[item1]
+}
+
+  /** 保存 */
+  function handleSave(doCreate,doUpdate,loading,refresh) { 
+    if (!['edit', 'add'].includes(props.formAction)) {
+      modalVisible.value = false
+      return
+    }
+    modalFormRef.value?.validate(async (err) => {
+      if (err) return
+      const actions = {
+        add: {
+          api: () => doCreate(modalForm.value),
+          cb: () => $message.success('保存成功'),
+        },
+        edit: {
+          api: () => doUpdate(modalForm.value),
+          cb: () => $message.success('编辑成功'),
+        },
+      }
+      const action = actions[props.formAction]
+
+      try {
+        loading.value = true
+        const data = await action.api()
+        action.cb()
+        loading.value = false
+        data && refresh()
+      } catch (error) {
+        loading.value = false
+      }
+    })
+  }
 
 // 抛出方法，让父级可以使用
 defineExpose({
   getFormData,
+  handleSave,
+  clearForm,
 })
 </script>
 

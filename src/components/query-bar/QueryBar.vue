@@ -23,5 +23,12 @@
 </template>
 
 <script setup>
+const props = defineProps({
+ /*  是否显示重置按钮 */
+  show:{
+    type:Boolean,
+    default:true
+  }
+})
 const emit = defineEmits(['search', 'reset'])
 </script>

@@ -88,6 +88,7 @@ const generalOptions = computed(() =>
 function showVisible(type, id) {
   modalAction.value = type
   modalVisible.value = true
+  modalForm.value = {}
   if (type != 'add') {
     getPostById(id)
   }
