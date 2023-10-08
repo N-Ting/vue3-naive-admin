@@ -1,10 +1,11 @@
 <template>
   <CrudDrawer
     v-model:visible="drawerVisible"
+    v-model:showForm="showForm"
     :title="drawerTitle"
     :loading="saveLoading"
     :show-footer="drawerAction !== 'view'"
-    @on-save="handleSave"
+    @on-save="handleSave" :showFooter="false" 
   >
     <n-grid x-gap="0" :cols="2">
       <n-grid-item>
@@ -18,7 +19,7 @@
           <template #queryBar>
             <QueryBarItem label="" :label-width="70">
               <n-input
-                v-model:value="queryItems.unitName"
+                v-model:value="queryItems.deptName"
                 type="text"
                 placeholder="请输入关键字"
                 clearable
@@ -52,6 +53,7 @@ import { useDrawer } from '@/composables'
 // 参数
 const queryItems = ref({
   unitId: '',
+  deptName:'',
 })
 const $tree = ref(null)
 const formData = ref([

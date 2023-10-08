@@ -4,7 +4,7 @@
     <n-drawer-content :title="title">
       <slot />
       <template  #footer>
-      <footer flex justify-center v-if="showFooterBtn">
+      <footer flex justify-center>
         <slot name="footer">
           <n-button @click="show = false">取消</n-button>
           <n-button v-if="showFooter" :loading="loading" ml-20 type="primary" @click="emit('onSave')">保存</n-button>
@@ -33,13 +33,13 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  placement: {
+  showForm: {
     type: Boolean,
     required: true,
   },
-  showFooterBtn:{
+  placement: {
     type: Boolean,
-    default: false,
+    required: true,
   },
   showFooter: {
     type: Boolean,
@@ -49,15 +49,20 @@ const props = defineProps({
     type: Boolean, 
     default: false,
   },
+
 })
 
-const emit = defineEmits(['update:visible', 'onSave'])
+const emit = defineEmits(['update:visible','update:showForm', 'onSave'])
+console.log(props.showForm,'1111');
 const show = computed({
   get() {
     return props.visible
   },
   set(v) {
+    console.log(v);
+    emit('update:showForm',v)
     emit('update:visible', v)
+    
   },
 })
 
