@@ -53,7 +53,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:visible','update:showForm', 'onSave'])
-console.log(props.showForm,'1111');
 const show = computed({
   get() {
     return props.visible
