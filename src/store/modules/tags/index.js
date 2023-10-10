@@ -70,7 +70,7 @@ export const useTagsStore = defineStore('tag', {
       const filterTags = this.tags.filter((item, index) => index >= curIndex)
       this.setTags(filterTags)
       /* find返回满足条件的第一个元素，则返回undefined
-      !filterTags.find((item) => item.path === this.activeTag) 
+      *!filterTags.find((item) => item.path === this.activeTag) 
       这里表示当前显示的路由为删除的路由时，则显示最后一个路由页面
        */
       if (!filterTags.find((item) => item.path === this.activeTag)) {

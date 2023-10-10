@@ -1,5 +1,6 @@
 <template>
   <QueryBar v-if="$slots.queryBar" mb-30 @search="handleSearch" @reset="handleReset">
+    <slot name="leftBtn" />
     <slot name="queryBar" />
   </QueryBar>
 

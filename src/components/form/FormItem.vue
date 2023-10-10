@@ -1,21 +1,37 @@
 <template>
-  <div>
-    <n-form
-      ref="modalFormRef"
-      :label-placement="labelPlacement"
-      :label-align="labelAlign"
-      :label-width="labelWidth"
-      :require-mark-placement="markPlacement"
-      :model="modalForm"
-      :disabled="disabled"
-    >
-      <n-form-item
-        v-for="(item, i) in formData"
-        :key="i"
-        :label="item.label"
-        :path="item.value"
-        :rule="item.rule"
-      >
+  <n-grid :cols="cols">
+    <!-- span栅格占据的列数，为 0 的时候会隐藏 -->
+    <n-gi v-for="(item, i) in formData" :span="item.span ? item.span : 1" :key="i">
+      <n-form-item :label="item.label" :path="item.value" :rule="item.rule">
+        <!-- 上传 accept 接受的文件类型 -->
+        <n-upload
+          action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+          :default-file-list="fileList"
+          list-type="image-card"
+          v-if="item.type.indexOf('upload') != -1"
+          :accept="item.accept"
+        >
+          <!-- 图片上传 +样式 -->
+          <i class="n-base-icon" v-if="item.type == 'upload-img'">
+            <svg
+              width="512"
+              height="512"
+              viewBox="0 0 512 512"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M256 112V400M400 256H112"
+                stroke="currentColor"
+                stroke-width="32"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </i>
+          <!-- 文件上传 按钮样式 -->
+          <n-button v-if="item.type == 'upload-file'">上传文件</n-button>
+        </n-upload>
         <!-- input框和textarea -->
         <n-input
           v-model:value="modalForm[item.value]"
@@ -27,6 +43,12 @@
           v-model:value="modalForm[item.value]"
           :options="item.options"
           v-else-if="item.type == 'select'"
+        />
+        <!-- 树形选择 -->
+        <n-tree-select
+          :options="item.options"
+          @update:value="handleUpdateValue"
+          v-else-if="item.type == 'tree-select'"
         />
         <!-- 数据输入框 -->
         <n-input-number
@@ -77,109 +99,28 @@
           v-else-if="item.type.indexOf('date') != -1"
         />
       </n-form-item>
-    </n-form>
-  </div>
+    </n-gi>
+  </n-grid>
 </template>
 
 <script setup>
 const props = defineProps({
-  /* 表单label宽度 */
-  labelWidth: {
+  /* 显示的栅格数量 */
+  cols: {
     type: Number,
-    default: '80',
-  },
-  /* 表单禁用状态 */
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  /* 标签显示的位置*/
-  labelPlacement: {
-    type: String,
-    default: 'left',
-  },
-  /* 标签的文本对齐方式 */
-  labelAlign: {
-    type: String,
-    default: 'right',
-  },
-  /* 必填星号的位置 */
-  markPlacement: {
-    type: String,
-    default: 'left',
+    default: 1,
   },
   /* 当前所要显示的表单字段 */
   formData: {
     type: Array,
     default: [],
   },
-  /* 状态 */
-  formAction:{
-    type: String,
-    default: 'add',
+
+  /* form的表单数据 */
+  modalForm: {
+    type: Object,
+    default: {},
   },
-  /* 获取详情的api */
-  getFormData: {
-    type: Function,
-    required: true,
-  },
-})
-const modalForm = ref({})
-const modalFormRef = ref(null) //表单ref
-const modalData= ref({})
-/* 获取表单信息 */
-async function getFormData(id) {
-  const { data } = await props.getFormData({id})
-  modalForm.value = data
-  modalData.value = data
-}
-
-/* 清空表单 item,item1所需要改变参数的id名*/
-function clearForm(item,item1){
- props.formData.map((item) => {
-    modalForm.value[item.value] = ''
-  })
-  modalForm.value[item] = modalData.value.id
-  modalForm.value[item1] = modalData.value[item1]
-}
-
-  /** 保存 */
-  function handleSave(doCreate,doUpdate,loading,refresh) { 
-    if (!['edit', 'add'].includes(props.formAction)) {
-      modalVisible.value = false
-      return
-    }
-    modalFormRef.value?.validate(async (err) => {
-      if (err) return
-      const actions = {
-        add: {
-          api: () => doCreate(modalForm.value),
-          cb: () => $message.success('保存成功'),
-        },
-        edit: {
-          api: () => doUpdate(modalForm.value),
-          cb: () => $message.success('编辑成功'),
-        },
-      }
-      const action = actions[props.formAction]
-
-      try {
-        loading.value = true
-        const data = await action.api()
-        action.cb()
-        loading.value = false
-        data && refresh()
-      } catch (error) {
-        loading.value = false
-      }
-    })
-  }
-
-// 抛出方法，让父级可以使用
-defineExpose({
-  getFormData,
-  handleSave,
-  clearForm,
 })
 </script>
 

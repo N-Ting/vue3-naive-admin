@@ -1,12 +1,12 @@
 
 
 import { defineStore } from 'pinia'
-import { router } from '@/router'
 import { sStorage } from '@/utils'
 export const useUnitStore = defineStore('unit', {
   state() {
     return {
      unitRole:[],//企业角色
+     userRole:[],//用户角色
     }
   },
   getters: {
@@ -15,7 +15,12 @@ export const useUnitStore = defineStore('unit', {
     // 存unitRole
     setUnitRole(role) {
       this.unitRole = role
-      sStorage.set('unitRole', role)
+      // sStorage.set('unitRole', role)
+    },
+
+    setUserRole(role) {
+      this.userRole = role
+      // sStorage.set('userRole', role)
     },
   },
 })

@@ -33,9 +33,9 @@
         <header min-h-60 b-1 rounded-8 pt-15 pb-15 bc-ccc dark:bg-black>
           <n-button v-if="addShow" type="primary" @click="addLevel('add')">新增下一级</n-button>
           <n-button :loading="saveLoading" ml-20 type="primary" @click="handleSave">保存</n-button>
-          <n-button :loading="delLoading" ml-20 type="primary" @click="handleDelete">删除</n-button>
+          <n-button :loading="delLoading" ml-20 type="primary" @click="handleDelete(selectedKey)">删除</n-button>
         </header>
-        <FormItem
+        <FormForm
           v-show="showForm"
           ref="$form"
           :formAction="drawerAction"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import api from './api'
+import api from '../api'
 import { useDrawer } from '@/composables'
 // 参数
 const queryItems = ref({
@@ -56,6 +56,7 @@ const queryItems = ref({
   deptName:'',
 })
 const $tree = ref(null)
+const selectedKey = ref('') //当前选中的部门id
 const formData = ref([
   {
     label: '上级部门',
@@ -118,6 +119,23 @@ function showVisible(id) {
   queryItems.value.unitId = id
 }
 
+  /* 新增 */
+  async function addLevel(type) {
+    addShow.value = false
+    drawerAction.value = type
+    $form.value.clearForm('personId','unitId')
+  }
+  // 当前树形数据选中
+  function handleSelectedKeysChange(selectedKeys) {
+    showForm.value = true
+    addShow.value = true
+    drawerAction.value = 'edit'
+    selectedKey.value = selectedKeys.join(',')
+    nextTick(()=>{
+      console.log($form.value);
+      $form.value.getFormData(selectedKey.value)
+    })
+  }
 const {
   drawerVisible,
   drawerAction,
@@ -127,9 +145,7 @@ const {
   showForm,
   saveLoading,
   addShow,
-  handleSelectedKeysChange,
   handleSave,
-  addLevel,
   handleDelete,
 } = useDrawer({
   name: '部门信息',

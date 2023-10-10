@@ -43,7 +43,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['handleSelectedKeysChange', 'handleExpandedKeysChange'])
+const emit = defineEmits(['updateTreeData','handleSelectedKeysChange', 'handleExpandedKeysChange'])
 const treeData = ref([])
 const defaultExpandedKeys = ref([])
 const defaultSelectedKeys = ref([])
@@ -60,6 +60,7 @@ async function handleQuery() {
     ...props.queryItems,
   })
   treeData.value = data || []
+  emit('updateTreeData',data)
   // defaultExpandedKeys.value = data[0].id
   // defaultSelectedKeys.value = data[0].id
 }

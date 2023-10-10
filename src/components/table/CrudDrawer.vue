@@ -58,7 +58,6 @@ const show = computed({
     return props.visible
   },
   set(v) {
-    console.log(v);
     emit('update:showForm',v)
     emit('update:visible', v)
     
