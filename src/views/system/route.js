@@ -28,7 +28,7 @@ export default {
     {
       name: 'Users',
       path: 'users',
-      component: () => import('./roles/md-editor.vue'),
+      component: () => import('./users/index.vue'),
       meta: {
         title: '用户管理',
         icon: 'material-symbols:person',

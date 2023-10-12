@@ -6,12 +6,12 @@ const ACTIONS = {
   add: '新增',
 }
 
-export default function ({name,doCreate, doUpdate,  doDelete,refresh}) {
+export default function ({name,formList,cols,doCreate, doUpdate,  doDelete,refresh}) {
   const $table = ref(null)
   /** 表格数据，触发搜索的时候会更新这个值 */
   const tableData = ref([])
   /** QueryBar筛选参数（可选） */
-  const queryItems = ref({ unitName: '' })
+  const queryItems = ref({})
   /** 补充参数（可选） */
   const extraParams = ref({})
   /* form表单组件的ref */
@@ -20,10 +20,13 @@ export default function ({name,doCreate, doUpdate,  doDelete,refresh}) {
   const modalAction = ref('') // 当前状态
   const modalTitle = computed(() => ACTIONS[modalAction.value] + name) //标题
   const modalLoading = ref(false) //loading是否开启
+  const formData = ref([])
   //新增编辑查看
   function handleView(type, id) {
     modalAction.value = type
     modalVisible.value = true
+    formData.value = formList.value
+    cols.value = 2
     nextTick(()=>{
       if (type != 'add') {
         $form.value?.getFormData(id)
@@ -76,5 +79,6 @@ export default function ({name,doCreate, doUpdate,  doDelete,refresh}) {
     modalTitle,
     modalLoading,
     handleSave,
+    formData,
   }
 }

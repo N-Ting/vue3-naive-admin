@@ -92,7 +92,7 @@
 import { NButton, NTag, NDropdown } from 'naive-ui'
 import { renderIcon } from '@/utils'
 import api from '../api'
-import { useDrawer, useTable } from '@/composables'
+import { useDrawer, useTable,useUser } from '@/composables'
 import { useUnitStore } from '@/store'
 // 树形菜单参数
 const queryTree = ref({
@@ -167,12 +167,6 @@ function updateTreeData(val) {
   })
 }
 
-// function renderIcon() {
-//     return h(NIcon, null, {
-//           default: () => ''
-//         })
-// }
-
 const columns = [
   {
     title: '序号',
@@ -210,12 +204,11 @@ const columns = [
       ]
     },
   },
-  { title: '姓名', key: 'nickName', width: 10, ellipsis: { tooltip: true } },
+  { title: '姓名', key: 'nickName', width: 10},
   {
     title: '手机号',
     key: 'phone',
     width: 10,
-    ellipsis: { tooltip: true },
   },
   {
     title: '角色',
@@ -312,7 +305,7 @@ const columns = [
   },
 ]
 
-const formData = ref([
+const formList = ref([
   {
     label: '头像',
     value: 'headPic',
@@ -337,7 +330,7 @@ const formData = ref([
   },
   {
     label: '身份证',
-    value: 'unitAddress',
+    value: 'idcard',
     type: 'input',
   },
   {
@@ -381,6 +374,13 @@ const { drawerVisible, drawerAction, drawerTitle, placement, saveLoading } = use
   doDelete: api.delUnitDepart,
   refresh: () => $tree.value?.handleSearch(),
 })
+
+// 当前树形数据选中,调用右侧的表格查询
+function handleSelectedKeysChange(selectedKeys) {
+  queryTable.value.unitId = queryTree.value.unitId
+  queryTable.value.deptId = selectedKeys.join(',')
+  $table.value?.handleSearch()
+}
 const {
   $table,
   tableData,
@@ -395,50 +395,30 @@ const {
   modalLoading,
   handleSave,
   handleSelect,
+  formData
 } = useTable({
   name: '成员管理',
+  formList,
+  cols,
   doCreate: api.addUnitMember,
   doUpdate: api.updateUnitMember,
   doDelete: api.deletePost,
   refresh: () => $table.value?.handleSearch(),
 })
 
-// 当前树形数据选中,调用右侧的表格查询
-function handleSelectedKeysChange(selectedKeys) {
-  queryTable.value.unitId = queryTree.value.unitId
-  queryTable.value.deptId = selectedKeys.join(',')
-  $table.value?.handleSearch()
-}
-/* 重置密码 */
-function resetPassword(id) {
-  $dialog.confirm({
-    content: '确定重置密码？',
-    async confirm() {
-      try {
-        //   const data = await doDelete(id)
-        $message.success('重置密码成功')
-        refresh(data)
-      } catch (error) {}
-    },
-  })
-}
+const {
+    resetPassword,
+    handlePhone,
+} = useUser({
+    modalAction,
+    modalVisible,
+    cols,
+    formData,
+    modalTitle,
+    doReset:''
+})
 
-function handlePhone(type, id) {
-  modalAction.value = type
-  modalVisible.value = true
-  cols.value = 1
-  formData.value = [
-    {
-      label: '手机号',
-      value: 'phone',
-      type: 'input',
-      rule: {
-        required: true,
-        trigger: ['input', 'blur'],
-      },
-    },
-  ]
-}
+
 
 // 抛出方法，让父级可以使用
 defineExpose({
