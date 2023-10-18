@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
       return this.userInfo?.id
     },
     name() {
-      return this.userInfo?.name
+      return this.userInfo?.loginName
     },
     avatar() {
       return this.userInfo?.avatar

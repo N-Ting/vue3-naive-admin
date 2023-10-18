@@ -2,12 +2,15 @@
   <QueryBar v-if="$slots.queryBar" mb-30 @search="handleSearch" :show="false">
     <slot name="queryBar" />
   </QueryBar>
+
   <n-tree
     block-line
     :data="treeData"
     :default-expanded-keys="defaultExpandedKeys"
     :key-field="keyField"
     :label-field="labelField"
+    :render-prefix="renderPrefix"
+    :render-suffix="renderSuffix"
     :default-selected-keys="defaultSelectedKeys"
     @update:selected-keys="handleSelectedKeysChange"
     @update:expanded-keys="handleExpandedKeysChange"
@@ -16,6 +19,8 @@
 </template>
 
 <script setup>
+
+
 const props = defineProps({
   /* 
     自定义 key的字段
@@ -41,9 +46,16 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+
+  renderPrefix:{
+    type: Function,
+  },
+  renderSuffix:{
+    type: Function,
+  }
 })
 
-const emit = defineEmits(['updateTreeData','handleSelectedKeysChange', 'handleExpandedKeysChange'])
+const emit = defineEmits(['updateTreeData', 'handleSelectedKeysChange', 'handleExpandedKeysChange'])
 const treeData = ref([])
 const defaultExpandedKeys = ref([])
 const defaultSelectedKeys = ref([])
@@ -60,10 +72,15 @@ async function handleQuery() {
     ...props.queryItems,
   })
   treeData.value = data || []
-  emit('updateTreeData',data)
+  emit('updateTreeData', data)
   // defaultExpandedKeys.value = data[0].id
   // defaultSelectedKeys.value = data[0].id
 }
+
+
+
+
+
 /* 节点选中项发生变化时的回调函数 */
 function handleSelectedKeysChange(selectedKeys) {
   emit('handleSelectedKeysChange', selectedKeys)

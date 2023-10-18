@@ -1,5 +1,5 @@
 <template>
-  <n-grid :cols="cols">
+  <n-grid x-gap="12" :cols="cols">
     <!-- span栅格占据的列数，为 0 的时候会隐藏 -->
     <n-gi v-for="(item, i) in formData" :span="item.span ? item.span : 1" :key="i">
       <n-form-item :label="item.label" :path="item.value" :rule="item.rule">
@@ -54,7 +54,7 @@
         <n-input-number
           v-model:value="modalForm[item.value]"
           clearable
-          v-else-if="item.type == 'inputNumber'"
+          v-else-if="item.type == 'number'"
         />
         <!-- 单选 -->
         <n-radio-group
@@ -122,6 +122,22 @@ const props = defineProps({
     default: {},
   },
 })
+const rule = ref({
+  required:{ required: true, message: "必填项不能为空", trigger: "blur" }
+})
+
+watch(question, async (newQuestion, oldQuestion) => {
+  if (newQuestion.indexOf('?') > -1) {
+    answer.value = 'Thinking...'
+    try {
+      const res = await fetch('https://yesno.wtf/api')
+      answer.value = (await res.json()).answer
+    } catch (error) {
+      answer.value = 'Error! Could not reach the API. ' + error
+    }
+  }
+})
+
 </script>
 
 <style lang="scss" scoped></style>

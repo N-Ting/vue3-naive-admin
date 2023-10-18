@@ -34,7 +34,7 @@
       <n-grid-item :span="3" border-l border-l-solid bc-eee pl-15>
         <CrudTable
           ref="$table"
-          v-model:query-items="queryTable"
+          v-model:query-items="queryItems"
           :extra-params="extraParams"
           :scroll-x="1200"
           :columns="columns"
@@ -98,11 +98,6 @@ import { useUnitStore } from '@/store'
 const queryTree = ref({
   unitId: '',
   deptName: '',
-})
-
-// 表格参数
-const queryTable = ref({
-  unitId: '',
 })
 const $tree = ref(null)
 const role = computed(() => {
@@ -377,8 +372,8 @@ const { drawerVisible, drawerAction, drawerTitle, placement, saveLoading } = use
 
 // 当前树形数据选中,调用右侧的表格查询
 function handleSelectedKeysChange(selectedKeys) {
-  queryTable.value.unitId = queryTree.value.unitId
-  queryTable.value.deptId = selectedKeys.join(',')
+  queryItems.value.unitId = queryTree.value.unitId
+  queryItems.value.deptId = selectedKeys.join(',')
   $table.value?.handleSearch()
 }
 const {

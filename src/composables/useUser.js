@@ -1,5 +1,4 @@
 import { renderIcon } from '@/utils'
-import { NIcon } from 'naive-ui'
 export default function ({ modalAction, modalVisible, cols, formData, modalTitle, doReset }) {
   /* 重置密码 */
   function resetPassword(id) {

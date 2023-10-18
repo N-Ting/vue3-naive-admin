@@ -64,7 +64,7 @@ export default {
     {
       name: 'Menus',
       path: 'menus',
-      component: () => import('./upload/index.vue'),
+      component: () => import('./menus/index.vue'),
       meta: {
         title: '菜单管理',
         icon: 'gridicons:menus',
